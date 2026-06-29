@@ -1,0 +1,50 @@
+name: Bug Report
+description: Report incorrect, unclear, or broken guidance in a skill
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve these skills. Please fill in as much detail as you can.
+
+  - type: input
+    id: skill
+    attributes:
+      label: Skill
+      description: Which skill has the issue? Use the directory name (e.g. `performance`, `code-review`).
+      placeholder: performance
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What went wrong?
+      description: Describe the incorrect, unclear, or outdated guidance.
+      placeholder: The performance skill recommends X, but that causes Y in React Native 0.76+...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: What should the skill say or recommend instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: React Native version, platform, links to docs, or screenshots if helpful.
+      placeholder: RN 0.76, iOS and Android, link to official docs...
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues to avoid duplicates
+          required: true
