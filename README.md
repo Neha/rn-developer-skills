@@ -48,24 +48,32 @@ The same skills inform all three stages: what guides the build also defines the 
 
 ### Cursor (recommended)
 
-This repository is packaged as a [Cursor plugin](https://cursor.com/docs/plugins) for one-click install from the marketplace or GitHub.
+Requires **Cursor 3.9+** (Plugins and the **Customize** page). This repository is packaged as a [Cursor plugin](https://cursor.com/docs/plugins) for one-click install from the marketplace.
 
 **From the Cursor Marketplace** *(after listing approval)*
 
-1. Open **Customize** in the Cursor sidebar.
-2. Search for **React Native Developer Skills**.
-3. Click **Install**.
+1. Open the **Agents** view.
+2. Click **Customize** in the left sidebar.
+3. Open the **Plugins** tab, search for **React Native Developer Skills**, and click **Install**.
 
-**From GitHub** *(test before marketplace listing)*
+Shortcut: `Cmd+Shift+P` → **Cursor: Open Plugin Marketplace**
 
-1. Open **Settings → Plugins → Install from GitHub**.
-2. Paste `https://github.com/Neha/rn-developer-skills`.
-3. Confirm all 10 skills appear under **Customize → Skills**.
+**Test locally before submission**
+
+1. Clone this repo and load it as a local plugin:
+
+   ```bash
+   git clone https://github.com/Neha/rn-developer-skills.git
+   ln -s "$(pwd)/rn-developer-skills" ~/.cursor/plugins/local/rn-developer-skills
+   ```
+
+2. Reload Cursor: `Cmd+Shift+P` → **Developer: Reload Window**
+3. Open **Customize → Skills** and confirm all 10 skills appear.
 4. Invoke a skill in chat, e.g. `/spec-authoring` or `/code-review`.
 
 **Team Marketplace** *(Cursor Teams/Enterprise)*
 
-Admins can import the repo under **Settings → Plugins → Team Marketplaces → Import** and assign it to an access group.
+Admins import the repo under **Dashboard → Settings → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**, then assign it to a distribution group.
 
 To submit this plugin for public listing, see [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish).
 
