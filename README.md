@@ -46,9 +46,42 @@ The same skills inform all three stages: what guides the build also defines the 
 
 ## Installation
 
+### Cursor (recommended)
+
+Requires **Cursor 3.9+** (Plugins and the **Customize** page). This repository is packaged as a [Cursor plugin](https://cursor.com/docs/plugins) for one-click install from the marketplace.
+
+**From the Cursor Marketplace** *(after listing approval)*
+
+1. Open the **Agents** view.
+2. Click **Customize** in the left sidebar.
+3. Open the **Plugins** tab, search for **React Native Developer Skills**, and click **Install**.
+
+Shortcut: `Cmd+Shift+P` → **Cursor: Open Plugin Marketplace**
+
+**Test locally before submission**
+
+1. Clone this repo and load it as a local plugin:
+
+   ```bash
+   git clone https://github.com/Neha/rn-developer-skills.git
+   ln -s "$(pwd)/rn-developer-skills" ~/.cursor/plugins/local/rn-developer-skills
+   ```
+
+2. Reload Cursor: `Cmd+Shift+P` → **Developer: Reload Window**
+3. Open **Customize → Skills** and confirm all 10 skills appear.
+4. Invoke a skill in chat, e.g. `/spec-authoring` or `/code-review`.
+
+**Team Marketplace** *(Cursor Teams/Enterprise)*
+
+Admins import the repo under **Dashboard → Settings → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**, then assign it to a distribution group.
+
+To submit this plugin for public listing, see [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish).
+
+### Manual / other tools
+
 These skills are plain Markdown, so you can adopt them in whichever way suits your workflow:
 
-1. **Clone or copy** this repository (or just the `skills/` folder) into your project, for example under `.kiro/` or a `docs/` directory.
+1. **Clone or copy** this repository (or just the `skills/` folder) into your project, for example under `.cursor/skills/`, `.kiro/`, or a `docs/` directory.
 2. **Point your agent or team at them.** If you use an AI development tool that supports skills, place `skills/` where the tool expects them.
 3. **Reference a skill when you work.** Open the relevant `SKILL.md` (or ask your agent to apply it) when planning, building, or reviewing.
 4. **Run validation** (optional) to keep contributions consistent:
@@ -70,9 +103,11 @@ Start with `spec-authoring` for a new feature, reach for the focused skills whil
 ## Repository Layout
 
 ```
+.cursor-plugin/   Cursor marketplace manifest (plugin.json)
 skills/            one folder per skill, each with a SKILL.md
 templates/         starting points for new skills and specs
 scripts/           validation tooling
+assets/            logo and announcement image
 ```
 
 ## Contributing
