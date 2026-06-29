@@ -46,9 +46,34 @@ The same skills inform all three stages: what guides the build also defines the 
 
 ## Installation
 
+### Cursor (recommended)
+
+This repository is packaged as a [Cursor plugin](https://cursor.com/docs/plugins) for one-click install from the marketplace or GitHub.
+
+**From the Cursor Marketplace** *(after listing approval)*
+
+1. Open **Customize** in the Cursor sidebar.
+2. Search for **React Native Developer Skills**.
+3. Click **Install**.
+
+**From GitHub** *(test before marketplace listing)*
+
+1. Open **Settings → Plugins → Install from GitHub**.
+2. Paste `https://github.com/Neha/rn-developer-skills`.
+3. Confirm all 10 skills appear under **Customize → Skills**.
+4. Invoke a skill in chat, e.g. `/spec-authoring` or `/code-review`.
+
+**Team Marketplace** *(Cursor Teams/Enterprise)*
+
+Admins can import the repo under **Settings → Plugins → Team Marketplaces → Import** and assign it to an access group.
+
+To submit this plugin for public listing, see [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish).
+
+### Manual / other tools
+
 These skills are plain Markdown, so you can adopt them in whichever way suits your workflow:
 
-1. **Clone or copy** this repository (or just the `skills/` folder) into your project, for example under `.kiro/` or a `docs/` directory.
+1. **Clone or copy** this repository (or just the `skills/` folder) into your project, for example under `.cursor/skills/`, `.kiro/`, or a `docs/` directory.
 2. **Point your agent or team at them.** If you use an AI development tool that supports skills, place `skills/` where the tool expects them.
 3. **Reference a skill when you work.** Open the relevant `SKILL.md` (or ask your agent to apply it) when planning, building, or reviewing.
 4. **Run validation** (optional) to keep contributions consistent:
@@ -70,9 +95,11 @@ Start with `spec-authoring` for a new feature, reach for the focused skills whil
 ## Repository Layout
 
 ```
+.cursor-plugin/   Cursor marketplace manifest (plugin.json)
 skills/            one folder per skill, each with a SKILL.md
 templates/         starting points for new skills and specs
 scripts/           validation tooling
+assets/            logo and announcement image
 ```
 
 ## Contributing

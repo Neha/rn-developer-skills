@@ -1,0 +1,24 @@
+{
+  "name": "rn-developer-skills",
+  "version": "1.0.0",
+  "description": "Vendor-neutral RN skills for devs and AI agents. SSD from spec to review.",
+  "author": {
+    "name": "Neha"
+  },
+  "homepage": "https://github.com/Neha/rn-developer-skills",
+  "repository": "https://github.com/Neha/rn-developer-skills",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "skills",
+    "ssd",
+    "spec-driven",
+    "ai-agents",
+    "code-review",
+    "accessibility",
+    "performance",
+    "security"
+  ],
+  "logo": "assets/rn-developer-skills-announcement.jpg",
+  "skills": "./skills/"
+}
