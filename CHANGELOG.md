@@ -7,6 +7,7 @@ Per-skill history lives in [`skills/CHANGELOG.md`](skills/CHANGELOG.md).
 ## Unreleased
 
 ### Added
+- Cross-platform installation scripts for Codex and Claude (`scripts/install.sh`, `scripts/install.ps1`, and `scripts/install.cmd`).
 - `docs/skill-authoring-guide.md` — worked example for adding a new skill (`error-handling`).
 - `skills/CHANGELOG.md` — per-skill version history.
 - `schemas/plugin.schema.json` and `scripts/validate-plugin.mjs` — Cursor plugin manifest validation.
@@ -33,4 +34,3 @@ Initial public release.
 
 ### Changed
 - Skills consolidated under a single canonical `skills/` location.
-

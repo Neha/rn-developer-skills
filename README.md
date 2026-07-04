@@ -46,6 +46,48 @@ The same skills inform all three stages: what guides the build also defines the 
 
 ## Installation
 
+### Codex and Claude
+
+For broad agent support, use the standard skills CLI:
+
+```bash
+npx skills add Neha/rn-developer-skills
+```
+
+The scripts below are a zero-dependency fallback when you want local setup without manually copying the `skills/` folder.
+
+**macOS / Linux**
+
+```bash
+chmod +x scripts/install.sh
+./scripts/install.sh all
+```
+
+**Windows**
+
+```powershell
+.\scripts\install.ps1 all
+```
+
+Or from `cmd.exe`:
+
+```bat
+scripts\install.cmd all
+```
+
+Install only one target when needed:
+
+```bash
+./scripts/install.sh codex
+./scripts/install.sh claude
+```
+
+The Codex installer copies each skill folder to `$HOME/.agents/skills`, which current Codex docs list as the user-level skills directory. Override with `--codex-dir` or `CODEX_SKILLS_DIR` if your Codex setup uses a different location.
+
+The Claude installer copies each skill folder to `$HOME/.claude/skills` and also writes uploadable ZIP files to `dist/claude/`. Override the local copy location with `--claude-dir` or `CLAUDE_SKILLS_DIR` if your Claude setup expects a different skills directory. For Claude.ai, upload the generated ZIP files from **Customize → Skills**.
+
+By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them.
+
 ### Cursor (recommended)
 
 Requires **Cursor 3.9+** (Plugins and the **Customize** page). This repository is packaged as a [Cursor plugin](https://cursor.com/docs/plugins) for one-click install from the marketplace.
