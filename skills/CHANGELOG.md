@@ -83,7 +83,15 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 ### 1.0.0
 - Initial skill: permissions, native modules, platform APIs, background tasks, and listener cleanup.
 
+## forms-and-validation
+
+### 1.0.0
+- Initial skill: form state, validation timing, keyboard handling, error focus, and submit safety.
+
 ## code-review
+
+### 2.2.0
+- Route form concerns to the new focused skill.
 
 ### 2.1.0
 - Route native-integration concerns to the new focused skill.

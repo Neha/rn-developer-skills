@@ -8,6 +8,7 @@ Per-skill history lives in [`skills/CHANGELOG.md`](skills/CHANGELOG.md).
 
 ### Added
 - `native-integration` skill for permissions, native modules, platform APIs, background tasks, and listener cleanup.
+- `forms-and-validation` skill for form state, validation timing, keyboard handling, error focus, and submit safety.
 - Cross-platform installation scripts for Codex and Claude (`scripts/install.sh`, `scripts/install.ps1`, and `scripts/install.cmd`).
 - `docs/skill-authoring-guide.md` — worked example for adding a new skill (`error-handling`).
 - `skills/CHANGELOG.md` — per-skill version history.
