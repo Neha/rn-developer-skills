@@ -134,6 +134,14 @@ Admins import the repo under **Dashboard → Settings → Plugins → Team Marke
 
 To submit this plugin for public listing, see [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish).
 
+### Kiro
+
+This repository is an [Agent Plugin](https://kiro.dev/docs/powers/create/) Kiro can install as a power. `plugin.json` at the repo root is the manifest; skills stay in `skills/`.
+
+In Kiro, open the Powers panel, choose **Add Custom Power**, then **Import power from GitHub**, and use `https://github.com/Neha/rn-developer-skills`. Keywords such as `react-native` and `code-review` activate it.
+
+A public powers-registry listing, if you want one beyond GitHub import, is requested from the Kiro powers panel after this manifest is on `main`.
+
 ### Manual / other tools
 
 These skills are plain Markdown, so you can adopt them in whichever way suits your workflow:
@@ -163,6 +171,7 @@ Start with `spec-authoring` for a new feature, reach for the focused skills whil
 ```
 .cursor-plugin/   Cursor marketplace manifest (plugin.json)
 .claude-plugin/   Claude Code plugin and marketplace manifests
+plugin.json       Kiro / Agent Plugins manifest
 docs/             contributor guides (skill authoring walkthrough)
 schemas/          JSON Schema for plugin manifest validation
 skills/            one folder per skill, each with a SKILL.md
