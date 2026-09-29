@@ -22,6 +22,7 @@
 - [ ] `node scripts/validate-skills.mjs` passes locally
 - [ ] CHANGELOG.md updated (if user-facing)
 - [ ] `skills/CHANGELOG.md` updated (if editing a skill)
+- [ ] CodeRabbit comments are addressed or replied to (advisory until a required check is enabled)
 
 ## Test plan
 
