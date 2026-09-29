@@ -1,0 +1,14 @@
+{
+  "name": "rn-developer-skills",
+  "description": "Vendor-neutral React Native skills for developers and AI agents.",
+  "owner": {
+    "name": "Neha"
+  },
+  "plugins": [
+    {
+      "name": "rn-developer-skills",
+      "source": "./",
+      "description": "Vendor-neutral React Native skills for developers and AI agents. Spec/Skill-Driven Development from spec authoring through code review."
+    }
+  ]
+}
