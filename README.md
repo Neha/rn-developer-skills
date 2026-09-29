@@ -32,6 +32,7 @@ The same skills inform all three stages: what guides the build also defines the 
 | [state-and-data](skills/state-and-data/SKILL.md) | Server state, caching, offline behaviour, network transitions, transactions, and loading/empty/error states. |
 | [security](skills/security/SKILL.md) | Secrets, secure storage, transport security, PII in logs, deep-link validation, and privacy compliance. |
 | [testing](skills/testing/SKILL.md) | Unit, component, and E2E coverage; edge cases; and test quality. |
+| [native-integration](skills/native-integration/SKILL.md) | Permissions, native modules, platform APIs, background tasks, and listener cleanup. |
 
 ### Baseline (apply to every change)
 | Skill | Description |

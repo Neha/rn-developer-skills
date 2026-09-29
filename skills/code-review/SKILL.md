@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: Audit entry point for reviewing React Native code. Routes each concern to a focused skill and defines the review output format. Use when reviewing a PR, auditing a screen, or running a pre-merge quality gate.
-version: 2.0.1
+version: 2.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, code-review, audit]
@@ -41,6 +41,7 @@ Review each concern using its focused skill. Each link resolves to that skill's 
 | Testing | [testing](../testing/SKILL.md) | Unit, component, and E2E coverage; edge cases; test quality |
 | State & Data | [state-and-data](../state-and-data/SKILL.md) | Server state, caching, offline, network transitions, transactions, loading/empty/error states |
 | Security | [security](../security/SKILL.md) | Secrets, secure storage, transport, PII in logs, deep-link validation, privacy compliance |
+| Native integration | [native-integration](../native-integration/SKILL.md) | Permissions, native modules, platform APIs, background tasks, listener cleanup |
 
 For each concern: open the focused skill, apply its checklist to the code under review, and collect anything that fails into the output format below. If a concern does not apply to the change, note it as not applicable.
 
