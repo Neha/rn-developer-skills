@@ -93,7 +93,15 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 ### 1.0.0
 - Initial skill: crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging.
 
+## i18n-and-localization
+
+### 1.0.0
+- Initial skill: extracted strings, plurals, locale-aware formatting, RTL layout, and fallback locales.
+
 ## code-review
+
+### 2.4.0
+- Route localization concerns to the new focused skill.
 
 ### 2.3.0
 - Route observability concerns to the new focused skill.
