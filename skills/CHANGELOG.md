@@ -78,7 +78,15 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 ### 1.0.0
 - Initial skill: project structure, TypeScript, naming, file size, hygiene.
 
+## native-integration
+
+### 1.0.0
+- Initial skill: permissions, native modules, platform APIs, background tasks, and listener cleanup.
+
 ## code-review
+
+### 2.1.0
+- Route native-integration concerns to the new focused skill.
 
 ### 2.0.1
 - Added `platforms` and `react-native-version` frontmatter; added Applicability section.
