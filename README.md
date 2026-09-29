@@ -90,6 +90,17 @@ The Codex installer copies each skill folder to `$HOME/.agents/skills`, which cu
 
 The Claude installer copies each skill folder to `$HOME/.claude/skills` and also writes uploadable ZIP files to `dist/claude/`. Override the local copy location with `--claude-dir` or `CLAUDE_SKILLS_DIR` if your Claude setup expects a different skills directory. For Claude.ai, upload the generated ZIP files from **Customize → Skills**.
 
+**Claude Code marketplace**
+
+This repository is also a Claude Code plugin marketplace. From a shell:
+
+```bash
+claude plugin marketplace add Neha/rn-developer-skills
+claude plugin install rn-developer-skills@rn-developer-skills
+```
+
+Listing in Anthropic's public plugin directory is a separate submission from the repository owner. Local and GitHub installs above do not require that listing.
+
 By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them.
 
 ### Cursor (recommended)
@@ -151,6 +162,7 @@ Start with `spec-authoring` for a new feature, reach for the focused skills whil
 
 ```
 .cursor-plugin/   Cursor marketplace manifest (plugin.json)
+.claude-plugin/   Claude Code plugin and marketplace manifests
 docs/             contributor guides (skill authoring walkthrough)
 schemas/          JSON Schema for plugin manifest validation
 skills/            one folder per skill, each with a SKILL.md

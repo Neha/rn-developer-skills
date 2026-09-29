@@ -1,0 +1,19 @@
+{
+  "name": "rn-developer-skills",
+  "displayName": "React Native Developer Skills",
+  "version": "1.0.0",
+  "description": "Vendor-neutral React Native skills for developers and AI agents. Spec/Skill-Driven Development from spec authoring through code review.",
+  "author": {
+    "name": "Neha"
+  },
+  "homepage": "https://github.com/Neha/rn-developer-skills",
+  "repository": "https://github.com/Neha/rn-developer-skills",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "skills",
+    "spec-driven",
+    "code-review"
+  ],
+  "skills": "./skills/"
+}
