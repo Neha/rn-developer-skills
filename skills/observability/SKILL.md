@@ -1,7 +1,7 @@
 ---
 name: observability
 description: Review React Native crash reporting, breadcrumbs, performance traces, and analytics for PII-safe production debugging. Use when adding monitoring or reviewing observability in a change.
-version: 1.0.0
+version: 1.0.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, observability, crashes, analytics, privacy]
@@ -20,7 +20,14 @@ tags: [react-native, observability, crashes, analytics, privacy]
 - Reviewing what a change records about the user or the session
 - Debugging a production failure that cannot be reproduced on a device
 
+## Severity
+
+- **Merge-blocking:** a new event or log in this diff includes a name, email, token, or payment data.
+- **Should-fix:** missing traces and breadcrumb wording.
+
 ## Guidance
+
+Names, emails, and payment data in logs are also merge-blocking under [critical-rules](../critical-rules/SKILL.md). File that finding once, from `critical-rules`, when the line is in the diff.
 
 ### Crashes and errors
 

@@ -1,7 +1,7 @@
 ---
 name: code-review
-description: Audit entry point for reviewing React Native code. Routes each concern to a focused skill and defines the review output format. Use when reviewing a PR, auditing a screen, or running a pre-merge quality gate.
-version: 2.5.0
+description: Audit entry point for reviewing React Native code. Applies crash and data-loss rules on every change, and opens a focused skill only when the diff touches that concern.
+version: 3.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, code-review, audit]
@@ -21,7 +21,7 @@ tags: [react-native, code-review, audit]
 - Running a pre-merge quality gate
 - Investigating the root cause of a production bug
 
-This skill is the entry point for a full review. It does not restate every check — each concern lives in its own focused skill. Work through the relevant skills below, then report findings in the output format.
+This skill is the entry point for a review. It does not restate every check. Apply the steps below, then report findings in the output format.
 
 ## Prerequisites
 
@@ -31,41 +31,78 @@ This skill is the entry point for a full review. It does not restate every check
 
 ## How to Conduct a Review
 
-Review each concern using its focused skill. Each link resolves to that skill's checklist, examples, and pitfalls — apply those there rather than duplicating them here.
+1. Always apply [critical-rules](../critical-rules/SKILL.md), and only to lines this diff adds or edits. A crash on a line the diff does not touch is out of scope. Put a pre-existing issue in Consider only when it sits on a line the diff edits.
+2. Apply [conventions](../conventions/SKILL.md) when the diff adds or renames files, or changes structure or types. Skip it for a behaviour-only edit inside an existing file. Conventions findings are should-fix, not merge-blocking.
+3. Open another skill only when the diff touches that concern. Read that skill's Severity section before you promote a finding to Must-Fix.
+4. List the skills you did not open in one line under **Not applicable**. Do not write a line per skill, and do not paste a checklist.
 
-| Concern | Focused Skill | What it covers |
+| Concern | Open it when the diff… | Focused Skill |
 |---|---|---|
-| Architecture | [architecture](../architecture/SKILL.md) | Folder structure, navigation, deep linking, rendering safety, error boundaries, code quality |
-| Performance | [performance](../performance/SKILL.md) | Re-renders, list virtualisation, images, animations, memory and resource cleanup |
-| Accessibility | [accessibility](../accessibility/SKILL.md) | Labels, roles, touch targets, focus order, colour, dynamic type |
-| Testing | [testing](../testing/SKILL.md) | Unit, component, and E2E coverage; edge cases; test quality |
-| State & Data | [state-and-data](../state-and-data/SKILL.md) | Server state, caching, offline, network transitions, transactions, loading/empty/error states |
-| Security | [security](../security/SKILL.md) | Secrets, secure storage, transport, PII in logs, deep-link validation, privacy compliance |
-| Native integration | [native-integration](../native-integration/SKILL.md) | Permissions, native modules, platform APIs, background tasks, listener cleanup |
-| Forms | [forms-and-validation](../forms-and-validation/SKILL.md) | Form state, validation timing, keyboard handling, error focus, submit safety |
-| Observability | [observability](../observability/SKILL.md) | Crash reporting, breadcrumbs, performance traces, analytics, PII-safe logging |
-| Localization | [i18n-and-localization](../i18n-and-localization/SKILL.md) | Extracted strings, plurals, locale formatting, RTL layout, fallback locales |
-| Baseline safety | [critical-rules](../critical-rules/SKILL.md) | Crashes, data loss, security, compliance, and network rules that apply to every change |
-| Conventions | [conventions](../conventions/SKILL.md) | Structure, TypeScript, naming, file size, and hygiene |
+| Spec | is a new feature and the spec is part of the review. A missing spec is Consider, not a merge block | [spec-authoring](../spec-authoring/SKILL.md) |
+| Architecture | adds a screen, changes navigation, layout, or deep-link lifecycle | [architecture](../architecture/SKILL.md) |
+| Performance | changes a list, image, animation, or a screen that drops frames | [performance](../performance/SKILL.md) |
+| Accessibility | adds or changes an interactive control, label, or focus | [accessibility](../accessibility/SKILL.md) |
+| Testing | changes behaviour a user or caller can observe | [testing](../testing/SKILL.md) |
+| State & Data | changes a request, cache, offline path, or transaction | [state-and-data](../state-and-data/SKILL.md) |
+| Security | touches auth, secrets, PII, payments, consent, or which link target is allowed | [security](../security/SKILL.md) |
+| Native integration | touches permissions, native modules, or background work | [native-integration](../native-integration/SKILL.md) |
+| Forms | touches inputs, validation, the keyboard, or submit | [forms-and-validation](../forms-and-validation/SKILL.md) |
+| Observability | touches logging, analytics, or crash reporting | [observability](../observability/SKILL.md) |
+| Localization | adds user-facing copy, locale formatting, or RTL layout | [i18n-and-localization](../i18n-and-localization/SKILL.md) |
+| Error handling | adds a screen, a failure path, or retry | [error-handling](../error-handling/SKILL.md) |
+| Notifications | touches push or local notifications | [notifications](../notifications/SKILL.md) |
+| Theming | changes colours, dark mode, or theme tokens | [theming](../theming/SKILL.md) |
+| Upgrades | bumps React Native or a native dependency | [upgrades](../upgrades/SKILL.md) |
+| Release | changes a store build, version, or over-the-air bundle | [release-and-updates](../release-and-updates/SKILL.md) |
 
-Apply the baseline rows on every change. For each other concern: open the focused skill, apply its checklist to the code under review, and collect anything that fails into the output format below. If a concern does not apply to the change, note it as not applicable.
+**Incorrect:** a review that files `{count && <Text>}` when that line is not in the diff, or that writes a "not applicable" line for every skill.
 
-**Incorrect:** a review that only walks the happy path and skips `critical-rules`.
-
-**Correct:** a review that marks baseline safety and conventions as checked, and marks unrelated concerns (for example forms, when the diff has no form) as not applicable.
+**Correct:** a review that runs `critical-rules` on the changed lines, opens `forms-and-validation` because the diff changes a form, and ends with one line: "Not applicable: performance, notifications, upgrades, release."
 
 ## Output Format
 
 Structure every review as:
 
 1. **Summary** — overall assessment (solid / needs work / significant issues)
-2. **Must-Fix** — crashes, data loss, security or compliance issues (block merge)
-3. **Should-Fix** — performance problems, architecture violations, missing tests
+2. **Must-Fix** — crashes, data loss, or a security issue in code this diff touches (block merge)
+3. **Should-Fix** — performance, architecture, or missing tests for the behaviour this diff changes
 4. **Consider** — alternative approaches, future-proofing, style
 5. **What's Good** — well-implemented patterns worth reinforcing
 
+Name the skill each finding comes from. Say which concerns are not applicable.
+
+## Worked Example
+
+Diff, and only these lines:
+
+```tsx
+{password.length && <Text>{password.length} characters</Text>}
+<Button
+  disabled={password.length === 0}
+  title="Log in"
+  onPress={submit}
+/>
+```
+
+No test was added. The button already had a visible label.
+
+**Summary:** Needs work. The disabled check is right. The new character count uses `&&`.
+
+**Must-Fix:**
+- `critical-rules`: `{password.length && <Text>}` is in the diff. A length of `0` is falsy. Use `password.length > 0 &&`.
+
+**Should-Fix:**
+- `accessibility`: this diff sets `disabled` and does not set `accessibilityState={{ disabled: password.length === 0 }}`.
+- `testing`: this diff changes when the button enables and adds no test for that.
+
+**Not applicable:** spec-authoring, architecture, performance, state-and-data, security, native-integration, observability, i18n-and-localization, error-handling, notifications, theming, upgrades, release-and-updates.
+
+**Consider:** none. The empty-password message on an unchanged line stays out of this review.
+
+**What's Good:** `disabled` uses `password.length === 0`, so an empty password cannot submit.
+
 ## Pitfalls
 
-- Reviewing only the happy path — the focused skills exist to make sure offline, error, empty, and accessibility states get checked too.
-- Restating a focused skill's checklist here instead of linking to it causes drift; keep the detail in one place.
-- Skipping the "What's Good" section removes the positive reinforcement that makes reviews land well.
+- Opening every focused skill on a small diff produces noise, and the real crash gets lost.
+- Restating a focused skill's checklist here causes drift. Keep the detail in that skill.
+- Skipping "What's Good" removes the part of a review people remember.

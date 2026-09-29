@@ -1,6 +1,6 @@
 # Skill Authoring Guide
 
-Worked example: adding a new **`error-handling`** skill from scratch. Follow this when proposing a skill via issue or pull request.
+Worked example of the steps for adding a skill. [`error-handling`](../skills/error-handling/SKILL.md) is that skill now. Follow the same steps for the next one. The snippets below show the shape; do not create a second `error-handling` directory.
 
 For required structure and frontmatter fields, see [CONTRIBUTING.md](../CONTRIBUTING.md).
 

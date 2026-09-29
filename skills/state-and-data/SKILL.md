@@ -1,7 +1,7 @@
 ---
 name: state-and-data
-description: Review React Native data and state handling — server state with a query library, caching and staleness, offline behaviour, network transitions, transactions, and loading/empty/error states. Use when wiring up APIs, handling offline, or reviewing data flow.
-version: 1.0.1
+description: Review React Native data and state handling — one cache for server data, staleness, offline behaviour, network transitions, and transactions. Use when wiring up APIs, handling offline, or reviewing data flow.
+version: 1.2.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, state, data, networking, offline]
@@ -21,17 +21,22 @@ tags: [react-native, state, data, networking, offline]
 - Handling offline mode, network transitions, or flaky connections
 - Implementing payments, checkout, or other critical transactions
 
+## Severity
+
+- **Merge-blocking:** a POST this diff adds is retried when the network returns, or a payment is treated as success from the client callback alone.
+- **Should-fix:** cache freshness, optimistic updates, and empty-state copy.
+
 ## Guidance
 
 ### Server State
 
-- [ ] Server state uses a query library (e.g. TanStack Query), not local `useState` for API data
-- [ ] No server state duplicated into local state
-- [ ] Appropriate `staleTime` set per data type (not the default 0 for everything)
-- [ ] Mutations use optimistic updates (`onMutate`) where appropriate, with rollback on error
-- [ ] Loading states shown (skeleton or spinner)
-- [ ] Empty states handled (no blank screens)
-- [ ] Error states handled, not just the happy path
+Keep server data in one cache. That cache may be the store the app already uses.
+
+- [ ] Server data is not copied into a second `useState` that can drift from the cache
+- [ ] Freshness is chosen per data type, rather than refetching on every mount
+- [ ] An optimistic update rolls back when the request fails
+- [ ] Loading and empty states are shown for the request this diff adds
+- [ ] A failed request shows an error state. The fallback and retry policy are owned by [error-handling](../error-handling/SKILL.md)
 
 **Incorrect:**
 ```tsx
@@ -43,17 +48,14 @@ useEffect(() => {
 
 **Correct:**
 ```tsx
-const { data: users } = useQuery({
-  queryKey: ['users'],
-  queryFn: () => api.getUsers(),
-  staleTime: 5 * 60 * 1000,
-});
+const users = readFromAppCache('users', () => api.getUsers());
 ```
 
 ### Form & Local State
 
-- [ ] Form state preserved on navigation away and back
-- [ ] State not reset by keyboard appearance or orientation change
+Dirty form input, validation, and unsaved-change prompts are owned by [forms-and-validation](../forms-and-validation/SKILL.md).
+
+- [ ] Non-form UI state is not reset by keyboard appearance or orientation change
 
 ### Offline & Network Transitions
 
@@ -88,7 +90,7 @@ try {
 - [ ] Success confirmed server-side, not from a client callback alone
 - [ ] Interruption handled (user kills the app mid-transaction)
 - [ ] External redirects (OAuth, 3DS) return cleanly to the app
-- [ ] POST requests not auto-retried on network restore (avoids duplicates)
+- [ ] POST requests this diff adds are not auto-retried when the network returns (this skill owns that rule)
 
 **Incorrect:**
 ```tsx
@@ -115,15 +117,15 @@ const onPay = async () => {
 
 | Anti-Pattern | Risk | Fix |
 |---|---|---|
-| `useState` + `useEffect` for API data | Race conditions, no cache, no retry | Use a query library |
-| Global store for server data | Stale data, manual refetching | Let the query library own it |
-| Direct fetch/axios in components | Untestable, no caching, repeated code | Abstract into query hooks |
+| A second `useState` copy of server data | The screen and the cache disagree | Read from the one cache the app already uses |
+| A second store that copies each server response | The two copies drift | Read from that same cache |
+| Fetching inside the component | No shared cache, repeated requests | Read through the app cache |
 | Fire-and-forget async | Silent failures | Always handle errors |
 | Auto-retry POST on reconnect | Duplicate transactions | Retry only idempotent reads |
 
 ## Pitfalls
 
-- `staleTime: 0` (the default in many libraries) refetches on every screen focus, wasting bandwidth and battery.
+- A cache that treats every read as stale refetches on every focus, which wastes bandwidth and battery.
 - Optimistic updates without rollback on error leave the UI in an impossible state.
 - Not cleaning up an `AbortController` on unmount triggers a state update on an unmounted component.
 - Showing stale cached data without an offline indicator makes users think it is current.

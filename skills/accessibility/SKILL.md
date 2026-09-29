@@ -1,7 +1,7 @@
 ---
 name: accessibility
 description: Review React Native code for screen-reader support, labels and roles, touch targets, focus order, colour contrast, and dynamic type. Use when building UI, reviewing components, or auditing a screen for accessibility.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, accessibility, a11y, screen-reader]
@@ -20,11 +20,17 @@ tags: [react-native, accessibility, a11y, screen-reader]
 - Auditing a screen for screen-reader and assistive-technology support
 - Verifying an app meets accessibility expectations before release
 
+## Severity
+
+- **Merge-blocking:** an interactive control this diff adds has no accessible name.
+- **Should-fix:** target size, contrast, dynamic type, and focus order.
+
 ## Guidance
 
 ### Labels & Roles
 
-- [ ] Every interactive element has an `accessibilityLabel` that describes its purpose, not its type
+- [ ] An interactive control has an accessible name: its visible text, or an `accessibilityLabel` when the visible content is only an icon
+- [ ] Do not repeat the visible text in `accessibilityLabel`
 - [ ] Every interactive element has an `accessibilityRole` (button, link, header, etc.)
 - [ ] State changes use `accessibilityState` (disabled, selected, expanded)
 - [ ] Images have an `accessibilityLabel`, or are marked `accessibilityElementsHidden` if decorative
@@ -51,8 +57,8 @@ tags: [react-native, accessibility, a11y, screen-reader]
 
 ### Touch & Focus
 
-- [ ] Touch targets are at least 44x44pt
-- [ ] Focus order is logical (top to bottom, left to right)
+- [ ] Touch targets are at least 44×44pt on iOS and 48×48dp on Android
+- [ ] Focus order follows reading order. In an RTL layout that order starts at the trailing edge (see [i18n-and-localization](../i18n-and-localization/SKILL.md))
 
 ### Visual
 

@@ -1,7 +1,7 @@
 ---
 name: spec-authoring
 description: Write a spec before building — capturing requirements, design, and tasks in order, with traceability between them. Use when starting any non-trivial feature so work is planned before code is written (Spec/Skill-Driven Development).
-version: 1.1.0
+version: 1.3.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [spec, planning, ssd, requirements, design]
@@ -22,6 +22,10 @@ tags: [spec, planning, ssd, requirements, design]
 - Whenever you would otherwise jump straight to code and risk rework
 
 This is the entry point for Spec/Skill-Driven Development (SSD): plan the work as a spec, then use the focused skills to guide and review the build.
+
+## Severity
+
+This skill is a planning step. It is not a merge gate.
 
 ## Guidance
 
@@ -57,21 +61,17 @@ Keep the chain intact: **each requirement → one or more design elements → on
 
 ### Focused Skills as Inputs
 
-When writing the design and the review criteria for an RN feature, pull from the focused skills in this repository:
+Name the skills this feature touches. Three or four is typical. Do not paste the full catalog into the spec.
 
-- [architecture](../architecture/SKILL.md) — informs design (structure, navigation) and review criteria
-- [performance](../performance/SKILL.md) — informs design (lists, images, animations) and review criteria
-- [accessibility](../accessibility/SKILL.md) — informs design and review criteria
-- [state-and-data](../state-and-data/SKILL.md) — informs design (data flow, offline) and review criteria
-- [security](../security/SKILL.md) — informs design (auth, storage) and review criteria
-- [testing](../testing/SKILL.md) — informs review criteria (what to test, at which level)
-- [code-review](../code-review/SKILL.md) — the audit entry point used to review the finished build
+Open a skill when the feature does that kind of work: navigation (`architecture`), a list or animation (`performance`), a control (`accessibility`), server data (`state-and-data`), auth or a link target (`security`), inputs (`forms-and-validation`), a permission (`native-integration`), analytics (`observability`), new copy (`i18n-and-localization`), a failure path (`error-handling`), push (`notifications`), colours (`theming`), a React Native bump (`upgrades`), a store or over-the-air build (`release-and-updates`). Finish with `testing` and `code-review`.
 
-If a referenced skill is not present in `skills/`, note it as unavailable rather than silently dropping it.
+If a skill you named is not in `skills/`, say it is unavailable rather than dropping it silently.
 
 ## Worked Example
 
-A complete, illustrative spec for a small RN feature — "Save an item to favourites".
+A spec for "Save an item to favourites".
+
+**Skills used:** `state-and-data`, `accessibility`, `error-handling`, `testing`. No forms, notifications, or upgrades.
 
 ### Requirements
 
@@ -94,15 +94,15 @@ Acceptance Criteria:
 
 ### Design
 
-- **Storage:** favourites stored in a fast key-value store, keyed by item id; read on app start into the query cache.
-- **State:** server-synced favourites managed by the query library with optimistic updates; `onMutate` toggles the control immediately and rolls back on error (satisfies R1.1, R1.3).
+- **Storage:** favourites stored in a fast key-value store, keyed by item id. The screen reads them from the app's existing cache.
+- **State:** server-synced favourites live in the app's existing cache, with an optimistic toggle that rolls back when the write fails (satisfies R1.1, R1.3). The failure UI comes from `error-handling`.
 - **Screens:** `FavouritesScreen` (list + empty state) and a reusable `FavouriteButton` (accessible control). `FavouriteButton` carries an `accessibilityLabel` and `accessibilityState` (R-a11y).
 - **Offline:** list reads come from cache first; an offline indicator is shown when disconnected (satisfies R2.1).
 - **Traceability:** R1 → optimistic mutation + storage; R2 → cached read + empty state.
 
 ### Tasks
 
-1. Add the key-value store wrapper and a `useFavourites` query hook. (design: storage, state)
+1. Add a favourites reader on the app's existing cache. (design: storage, state)
 2. Build `FavouriteButton` with optimistic toggle, rollback, and accessibility props. (design: state, screens)
 3. Build `FavouritesScreen` with list, empty state, and offline indicator. (design: screens, offline)
 4. Add tests: hook unit tests, button behaviour (toggle + rollback), empty/offline states. (review: testing)

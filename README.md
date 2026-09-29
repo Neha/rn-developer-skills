@@ -26,7 +26,7 @@ The same skills inform all three stages: what guides the build also defines the 
 ### Build & review (focused areas)
 | Skill | Description |
 |---|---|
-| [architecture](skills/architecture/SKILL.md) | Folder structure, navigation, deep linking, rendering safety, error boundaries, and code quality. |
+| [architecture](skills/architecture/SKILL.md) | Folder structure, navigation, deep linking, startup order, safe area, and rendering safety. |
 | [performance](skills/performance/SKILL.md) | Re-renders, list virtualisation, images, animations, and memory/resource cleanup. |
 | [accessibility](skills/accessibility/SKILL.md) | Labels, roles, touch targets, focus order, colour, and dynamic type. |
 | [state-and-data](skills/state-and-data/SKILL.md) | Server state, caching, offline behaviour, network transitions, transactions, and loading/empty/error states. |
@@ -36,17 +36,22 @@ The same skills inform all three stages: what guides the build also defines the 
 | [forms-and-validation](skills/forms-and-validation/SKILL.md) | Form state, validation timing, keyboard handling, error focus, and submit safety. |
 | [observability](skills/observability/SKILL.md) | Crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging. |
 | [i18n-and-localization](skills/i18n-and-localization/SKILL.md) | Extracted strings, plurals, locale-aware formatting, RTL layout, and fallback locales. |
+| [error-handling](skills/error-handling/SKILL.md) | Error boundaries, failure UI, retry, and global handlers. |
+| [notifications](skills/notifications/SKILL.md) | Push and local notifications, permission timing, tap routing, and payload privacy. |
+| [theming](skills/theming/SKILL.md) | Colour tokens, dark mode, and system appearance. |
+| [upgrades](skills/upgrades/SKILL.md) | React Native upgrades and the New Architecture. |
+| [release-and-updates](skills/release-and-updates/SKILL.md) | Store builds, versioning, and over-the-air JavaScript updates. |
 
-### Baseline (apply to every change)
+### Baseline
 | Skill | Description |
 |---|---|
-| [critical-rules](skills/critical-rules/SKILL.md) | Non-negotiable rules that prevent crashes, data loss, security breaches, and compliance violations. |
-| [conventions](skills/conventions/SKILL.md) | Project conventions for structure, TypeScript, naming, file size, and hygiene. |
+| [critical-rules](skills/critical-rules/SKILL.md) | Crash and secret checks that apply to lines the diff touches. |
+| [conventions](skills/conventions/SKILL.md) | Project conventions for structure, TypeScript, naming, file size, and hygiene. Apply when a change adds files or changes structure or types. |
 
 ### Audit
 | Skill | Description |
 |---|---|
-| [code-review](skills/code-review/SKILL.md) | Entry point that routes each concern to its focused skill and defines the review output format. |
+| [code-review](skills/code-review/SKILL.md) | Entry point that applies crash and data-loss rules on every change, and opens another skill only when the diff touches that concern. |
 
 ## Installation
 
@@ -101,7 +106,9 @@ claude plugin install rn-developer-skills@rn-developer-skills
 
 Listing in Anthropic's public plugin directory is a separate submission from the repository owner. Local and GitHub installs above do not require that listing.
 
-By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them.
+By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them. A copy installed earlier stays at that old version until you pass `--force` or reinstall the plugin.
+
+A plugin install and a copied folder are separate copies. Cursor loads every copy it finds, including a plugin, `~/.cursor/skills`, and skills it picks up from Claude or Codex folders. It does not pick the newer one. Claude Code namespaces a plugin skill as `plugin-name:skill-name`, so it loads beside a same-named skill in `~/.claude/skills` instead of replacing it. When names collide outside a plugin, Claude Code uses the enterprise skill over the personal one, and the personal one over the project one. Keep a single copy: use the plugin and delete the copied folder, or update the folder with `--force` and do not also enable the plugin. In Cursor, **Settings → Rules, Skills and Subagents → Include Third-Party Plugins, Skills, and Other Configs** stops it from also reading other tools' skill folders.
 
 ### Cursor (recommended)
 
@@ -125,7 +132,7 @@ Shortcut: `Cmd+Shift+P` → **Cursor: Open Plugin Marketplace**
    ```
 
 2. Reload Cursor: `Cmd+Shift+P` → **Developer: Reload Window**
-3. Open **Customize → Skills** and confirm all 14 skills appear.
+3. Open **Customize → Skills** and confirm all 19 skills appear.
 4. Invoke a skill in chat, e.g. `/spec-authoring` or `/code-review`.
 
 **Team Marketplace** *(Cursor Teams/Enterprise)*
@@ -164,7 +171,13 @@ Each `SKILL.md` follows the same shape, so any skill is predictable to navigate:
 - **Anti-Patterns** *(where useful)* — a table of common mistakes and their fixes.
 - **Pitfalls** — subtle gotchas the checklist alone does not catch.
 
-Start with `spec-authoring` for a new feature, reach for the focused skills while building, and finish with `code-review`.
+Start with `spec-authoring` for a new feature, use only the focused skills the feature touches, and finish with `code-review`.
+
+Examples:
+
+- **Login screen:** `spec-authoring`, then `forms-and-validation`, `security`, `accessibility`, and `error-handling`, then `testing`, then `code-review`.
+- **New list screen:** `spec-authoring`, then `architecture`, `performance`, `accessibility`, and `state-and-data`, then `testing`, then `code-review`.
+- **React Native bump:** `upgrades`, then `testing`, then `release-and-updates` if a store build is part of the same change.
 
 ## Repository Layout
 

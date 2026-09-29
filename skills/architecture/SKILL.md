@@ -1,7 +1,7 @@
 ---
 name: architecture
-description: Review and structure React Native features for correct folder layout, navigation, deep linking, error boundaries, rendering safety, and code quality. Use when designing a new feature, reviewing structure, or isolating crashes.
-version: 1.0.1
+description: Review and structure React Native features for folder layout, navigation, deep links, startup order, and safe area. Use when designing a new feature, reviewing structure, or isolating crashes.
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, architecture, navigation, structure]
@@ -22,26 +22,46 @@ tags: [react-native, architecture, navigation, structure]
 - Isolating crashes so one feature cannot take down the whole app
 - Checking general code quality before merge
 
+## Severity
+
+- **Merge-blocking:** a missing param in this diff crashes, sign-out leaves an authenticated screen reachable, or content this diff adds sits under the notch or home indicator and cannot be reached.
+- **Should-fix:** folder layout, type-safe params, and back-stack expectations.
+
 ## Guidance
 
 ### Feature Structure
 
-- [ ] Feature sits in its own folder (`src/features/{name}/`)
-- [ ] No cross-feature imports (share only through a `shared/` module)
-- [ ] Barrel export (`index.ts`) only exposes the feature's public API
+Follow the folder layout the app already uses. Use the feature-folder layout when the project has no structure yet, or when it already uses feature folders.
+
+- [ ] New code matches the existing folder layout
+- [ ] When using feature folders: one feature per `src/features/{name}/`, shared code only through `shared/`, and a barrel `index.ts` exposes the public API
 - [ ] No business logic in components — extract to hooks and utilities
 - [ ] Clear separation: screen (layout) vs components (reusable UI) vs hooks (logic)
 
 ### Navigation & Deep Linking
 
 - [ ] Screen registered in navigation with type-safe params
-- [ ] Deep link configured for every navigable screen
-- [ ] Deep link handles both cold start and background resume (different lifecycles)
-- [ ] Deep links to authenticated screens check auth state first
+- [ ] A screen is deep-linked only when a person or another app should open it directly. A payment step, a modal, or an intermediate form screen does not get its own link
+- [ ] A deep link that exists handles both cold start and background resume
+- [ ] Deep links to authenticated screens check auth state first (startup order is below)
 - [ ] Expired or invalid deep link content handled gracefully
-- [ ] Navigation params treated as optional and validated
+- [ ] Navigation params treated as optional so a missing param does not crash. Whether the link target is allowed is owned by [security](../security/SKILL.md)
 - [ ] Back button goes to the expected screen
-- [ ] Navigation stack reset on sign-out (no deep-linking back into authenticated content)
+
+### Startup
+
+This skill owns the order. [notifications](../notifications/SKILL.md) owns the payload. [security](../security/SKILL.md) owns whether the target is allowed.
+
+- [ ] Cold start restores the session before it handles a link or a notification
+- [ ] A link or notification that arrived during startup is stored and consumed once, after navigation can act on it
+- [ ] Sign-out clears the session and the navigation stack, so a link cannot return to an authenticated screen
+
+### Screen chrome
+
+Safe area is owned here. Status-bar colours that depend on the theme are owned by [theming](../theming/SKILL.md).
+
+- [ ] Content clears the status bar, notch, and home indicator, including while the keyboard is open
+- [ ] A control that the safe area would cover can still be reached
 
 **Incorrect:**
 ```tsx
@@ -58,78 +78,34 @@ const item = useItem(itemId);
 
 ### Rendering Safety
 
-- [ ] Conditional rendering handles falsy values correctly
+Falsy text such as `{count && <Text>}` is owned by [critical-rules](../critical-rules/SKILL.md). Do not file that finding again from this skill.
+
 - [ ] Components return `null`, not `undefined`, for an empty render
 - [ ] List items have stable, unique keys (not array index)
 
-**Incorrect:**
-```tsx
-{count && <Text>{count} items</Text>}        // renders "0" when count is 0
-<Text>Hello {user.name}</Text>               // crashes on Android if name is undefined
-```
+### Resilience
 
-**Correct:**
-```tsx
-{count > 0 && <Text>{count} items</Text>}
-<Text>Hello {user?.name ?? 'Guest'}</Text>
-```
+Crash isolation, fallback UI, and retry belong to [error-handling](../error-handling/SKILL.md).
 
-### Resilience & Error Boundaries
-
-- [ ] Error boundary at the app root and one per feature (crash isolated to feature)
-- [ ] Graceful degradation: disable a feature rather than crash the app
-- [ ] Errors are never swallowed silently
-- [ ] Fallback UI is simple enough to never crash itself (no API calls, no complex state)
-
-**Incorrect:**
-```tsx
-export default function App() {
-  return <Navigator />; // one crash anywhere kills the entire app
-}
-```
-
-**Correct:**
-```tsx
-export default function App() {
-  return (
-    <ErrorBoundary fallback={<AppCrashScreen />}>
-      <Navigator />
-    </ErrorBoundary>
-  );
-}
-
-function SearchScreen() {
-  return (
-    <ErrorBoundary fallback={<SearchUnavailable />}>
-      <SearchContent />
-    </ErrorBoundary>
-  );
-}
-```
+- [ ] A feature crash does not leave the rest of the app blank
 
 ### Code Quality
 
-- [ ] TypeScript: no `any`, no `@ts-ignore` without an explanation
-- [ ] No `console.log` left in (use a proper logging utility)
-- [ ] No commented-out code committed
-- [ ] No `TODO` without a linked ticket
-- [ ] Component props have a named TypeScript interface (not inline)
-- [ ] Files stay under ~300 lines; functions under ~50 lines (split when larger)
+TypeScript, naming, file size, and hygiene are owned by [conventions](../conventions/SKILL.md).
 
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Bad | Fix |
 |---|---|---|
-| Cross-feature imports | Tight coupling, hard to move or delete features | Share through `shared/` only |
+| Cross-feature imports in a feature-folder app | Tight coupling, hard to move or delete features | Share through `shared/` only |
 | `navigate` called during render | Infinite loop | Move to `useEffect` or an event handler |
 | Components defined inside components | Re-mounts every render, loses state | Define at module scope |
 | Platform checks scattered everywhere | Hard to follow, easy to miss a case | Use `.ios.ts` / `.android.ts` files |
-| `any` type | Defeats TypeScript, hides bugs | Use proper types or `unknown` |
-| Missing error boundary | One crash takes down the whole app | Error boundary per feature |
+| Missing crash isolation | One crash takes down the whole app | See `error-handling` |
 
 ## Pitfalls
 
 - Error boundaries only catch render and lifecycle errors — not errors in event handlers or async code. Handle those explicitly.
 - Deep links fire on both cold start and background resume; the two paths have different lifecycles and both need testing.
-- `undefined` rendered inside `<Text>` crashes on Android but silently works on iOS, so iOS-only testing misses it.
+- Text crashes from rendering `undefined` are owned by `critical-rules`. iOS-only testing misses the Android crash.
 - Using array index as a list key causes the wrong items to re-render on reorder or delete.

@@ -1,7 +1,7 @@
 ---
 name: native-integration
 description: Review React Native native-module, permission, and background-task work. Use when integrating platform APIs, camera, biometrics, files, or reviewing a bridge or Turbo Module boundary.
-version: 1.0.0
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, native, permissions, turbo-modules]
@@ -21,9 +21,16 @@ tags: [react-native, native, permissions, turbo-modules]
 - Adding a background task or a native listener
 - Reviewing a change that crosses the JavaScript and native boundary
 
+## Severity
+
+- **Merge-blocking:** a permission prompt this diff adds loops after denial, or a listener this diff adds is not removed on unmount.
+- **Should-fix:** usage-string wording and when the prompt appears, as long as denial does not crash.
+
 ## Guidance
 
 ### Permissions
+
+This skill owns when the prompt is shown and what denial looks like. Analytics consent is owned by [security](../security/SKILL.md).
 
 - [ ] Permission is requested at the moment of use, not on app launch or screen mount
 - [ ] Denied, restricted, and revoked states have a path that does not crash or loop the prompt
