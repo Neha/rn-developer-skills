@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: Audit entry point for reviewing React Native code. Applies crash and data-loss rules on every change, and opens a focused skill only when the diff touches that concern.
-version: 3.0.0
+version: 3.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, code-review, audit]
@@ -31,13 +31,14 @@ This skill is the entry point for a review. It does not restate every check. App
 
 ## How to Conduct a Review
 
-1. Always apply [critical-rules](../critical-rules/SKILL.md). Those checks block a merge.
-2. Apply [conventions](../conventions/SKILL.md) when the diff adds or renames files, or changes structure or types. Skip it for a behaviour-only edit inside an existing file.
-3. Open another skill only when the diff touches that concern. A one-line copy change does not need the forms, list, or notification checklist.
-4. When a concern does not apply, write "not applicable" in one line. Do not paste that skill's checklist.
+1. Always apply [critical-rules](../critical-rules/SKILL.md), and only to lines this diff adds or edits. A crash on a line the diff does not touch is out of scope. Put a pre-existing issue in Consider only when it sits on a line the diff edits.
+2. Apply [conventions](../conventions/SKILL.md) when the diff adds or renames files, or changes structure or types. Skip it for a behaviour-only edit inside an existing file. Conventions findings are should-fix, not merge-blocking.
+3. Open another skill only when the diff touches that concern. Read that skill's Severity section before you promote a finding to Must-Fix.
+4. List the skills you did not open in one line under **Not applicable**. Do not write a line per skill, and do not paste a checklist.
 
 | Concern | Open it when the diff… | Focused Skill |
 |---|---|---|
+| Spec | is a new feature and the spec is part of the review. A missing spec is Consider, not a merge block | [spec-authoring](../spec-authoring/SKILL.md) |
 | Architecture | adds a screen, changes navigation, layout, or deep-link lifecycle | [architecture](../architecture/SKILL.md) |
 | Performance | changes a list, image, animation, or a screen that drops frames | [performance](../performance/SKILL.md) |
 | Accessibility | adds or changes an interactive control, label, or focus | [accessibility](../accessibility/SKILL.md) |
@@ -54,9 +55,9 @@ This skill is the entry point for a review. It does not restate every check. App
 | Upgrades | bumps React Native or a native dependency | [upgrades](../upgrades/SKILL.md) |
 | Release | changes a store build, version, or over-the-air bundle | [release-and-updates](../release-and-updates/SKILL.md) |
 
-**Incorrect:** a review of a button label that opens every skill and files a finding for each unchecked box.
+**Incorrect:** a review that files `{count && <Text>}` when that line is not in the diff, or that writes a "not applicable" line for every skill.
 
-**Correct:** a review that runs `critical-rules`, opens `forms-and-validation` because the diff changes a form, and marks lists, notifications, and upgrades as not applicable.
+**Correct:** a review that runs `critical-rules` on the changed lines, opens `forms-and-validation` because the diff changes a form, and ends with one line: "Not applicable: performance, notifications, upgrades, release."
 
 ## Output Format
 
@@ -72,22 +73,33 @@ Name the skill each finding comes from. Say which concerns are not applicable.
 
 ## Worked Example
 
-Diff: the login button stays disabled until the password field has text. No new request, list, permission, or string catalog.
+Diff, and only these lines:
 
-**Summary:** Needs work. The disabled state is fine. A falsy count is rendered as text, and the new disabled state has no test.
+```tsx
+{password.length && <Text>{password.length} characters</Text>}
+<Button
+  disabled={password.length === 0}
+  title="Log in"
+  onPress={submit}
+/>
+```
+
+No test was added. The button already had a visible label.
+
+**Summary:** Needs work. The disabled check is right. The new character count uses `&&`.
 
 **Must-Fix:**
-- `critical-rules`: `{attempts && <Text>}` renders `0` and can crash Android text. Use `attempts > 0 &&`.
+- `critical-rules`: `{password.length && <Text>}` is in the diff. A length of `0` is falsy. Use `password.length > 0 &&`.
 
 **Should-Fix:**
-- `testing`: no test that the button is disabled until a password is entered.
-- `forms-and-validation`: the failed-login error is colour only.
+- `accessibility`: this diff sets `disabled` and does not set `accessibilityState={{ disabled: password.length === 0 }}`.
+- `testing`: this diff changes when the button enables and adds no test for that.
 
-**Not applicable:** performance, native integration, notifications, theming, upgrades, release, localization.
+**Not applicable:** spec-authoring, architecture, performance, state-and-data, security, native-integration, observability, i18n-and-localization, error-handling, notifications, theming, upgrades, release-and-updates.
 
-**Consider:** keep the password rule next to the other field checks.
+**Consider:** none. The empty-password message on an unchanged line stays out of this review.
 
-**What's Good:** a second press is ignored while submit is in flight.
+**What's Good:** `disabled` uses `password.length === 0`, so an empty password cannot submit.
 
 ## Pitfalls
 

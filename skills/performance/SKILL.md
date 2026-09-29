@@ -1,7 +1,7 @@
 ---
 name: performance
 description: Review React Native code for rendering performance, list virtualisation, memoisation, image handling, animations, and memory/resource cleanup. Use when a screen feels janky, before merging UI-heavy code, or when profiling.
-version: 1.1.0
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, performance, memory, rendering]
@@ -20,6 +20,11 @@ tags: [react-native, performance, memory, rendering]
 - Reviewing UI-heavy code or long lists before merge
 - Profiling re-renders or memory growth over a session
 - Adding animations or large images
+
+## Severity
+
+- **Merge-blocking:** a timer, interval, or listener this diff adds is still running after unmount.
+- **Should-fix:** list virtualisation and memoisation.
 
 ## Guidance
 
@@ -65,7 +70,8 @@ Measure before adding memoisation. If the React Compiler is enabled for the file
 
 ### Memory & Resources
 
-- [ ] Async operations cancelled on unmount
+This skill owns timers, intervals, and event listeners. Cancelling an in-flight request is owned by [state-and-data](../state-and-data/SKILL.md).
+
 - [ ] Timers and intervals cleared on unmount
 - [ ] Event listeners removed on cleanup
 - [ ] Caches have a max size and an eviction policy

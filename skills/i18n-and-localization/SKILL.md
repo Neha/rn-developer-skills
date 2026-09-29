@@ -1,7 +1,7 @@
 ---
 name: i18n-and-localization
 description: Review React Native localization for extracted strings, plurals, locale-aware formatting, and RTL layout. Use when adding a locale, implementing RTL, or auditing translation readiness.
-version: 1.0.0
+version: 1.0.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, i18n, l10n, rtl]
@@ -20,6 +20,11 @@ tags: [react-native, i18n, l10n, rtl]
 - Implementing right-to-left layout
 - Formatting dates, numbers, or currencies
 - Auditing a screen for translation readiness
+
+## Severity
+
+- **Merge-blocking:** a missing translation renders `undefined` or the raw key as text.
+- **Should-fix:** plurals, RTL, and pseudo-locale overflow.
 
 ## Guidance
 
@@ -43,7 +48,7 @@ tags: [react-native, i18n, l10n, rtl]
 ### Formatting
 
 - [ ] Dates, times, numbers, and currencies use the active locale, not a hardcoded `en-US` pattern
-- [ ] Business deadlines use the server timezone (see `critical-rules`); only display formatting uses the locale
+- [ ] Business deadlines and other business logic use the server timezone, not the device clock. This skill owns that rule. Display formatting uses the locale
 - [ ] The locale used for formatting is the app locale, which may differ from the device locale when the user picks a language in-app
 
 ### Layout

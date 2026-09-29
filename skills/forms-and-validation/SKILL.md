@@ -1,7 +1,7 @@
 ---
 name: forms-and-validation
 description: Review React Native forms for validation timing, keyboard handling, error focus, and preserved dirty state. Use when building or reviewing login, signup, checkout, settings, or multi-step forms.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, forms, validation, keyboard]
@@ -20,15 +20,20 @@ tags: [react-native, forms, validation, keyboard]
 - Changing validation, keyboard behaviour, or submit handling
 - Reviewing a wizard or multi-step flow that collects user input
 
+## Severity
+
+- **Merge-blocking:** a double submit, or this diff discards dirty input with no prompt.
+- **Should-fix:** validation timing, keyboard, and autofill.
+
 ## Guidance
 
 ### State
 
-This skill owns whether dirty form input survives navigation. [critical-rules](../critical-rules/SKILL.md) only checks that unsaved input is not discarded silently.
+This skill owns whether dirty form input survives navigation.
 
 - [ ] Each field has one source of truth; the screen does not mix uncontrolled inputs with a second copy of the same value
 - [ ] Dirty values survive leaving the screen and coming back, including when the app is backgrounded mid-edit
-- [ ] A submit in flight is not sent again (button ignores repeat presses; a failed POST is not auto-retried)
+- [ ] A submit in flight is not sent again (the button ignores repeat presses). Retrying a failed POST when the network returns is owned by [state-and-data](../state-and-data/SKILL.md)
 - [ ] Leaving with unsaved changes asks the user before discarding, when the data would be lost
 
 ### Validation
@@ -36,7 +41,7 @@ This skill owns whether dirty form input survives navigation. [critical-rules](.
 - [ ] Format checks run on blur or submit, not on every keystroke
 - [ ] Server checks (taken email, payment decline) run on submit and map to the field they belong to
 - [ ] The first invalid field is scrolled into view and focused
-- [ ] Errors are text, not colour alone, and are announced to the screen reader
+- [ ] Errors are text next to the field and are announced. Colour-only state is owned by [accessibility](../accessibility/SKILL.md)
 - [ ] The submit control shows a loading state and stays disabled only while the request is in flight, with a visible reason when it cannot be used
 
 **Incorrect:**

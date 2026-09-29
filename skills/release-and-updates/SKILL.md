@@ -1,7 +1,7 @@
 ---
 name: release-and-updates
 description: Ship React Native release builds, store binaries, and over-the-air JavaScript updates safely. Use when cutting a release, publishing to a store, or shipping an OTA bundle.
-version: 1.0.0
+version: 1.0.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, release, ota, store]
@@ -19,6 +19,11 @@ tags: [react-native, release, ota, store]
 - Cutting a build for TestFlight, Play testing, or a store
 - Changing version or build numbers, API environments, or signing
 - Shipping JavaScript over the air without a store binary
+
+## Severity
+
+- **Merge-blocking:** a release binary this diff configures still talks to staging, or an over-the-air bundle ships a change that needs new native code.
+- **Should-fix:** listing copy and rollout notes.
 
 ## Guidance
 

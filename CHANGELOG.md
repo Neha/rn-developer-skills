@@ -23,6 +23,7 @@ Per-skill history lives in [`skills/CHANGELOG.md`](skills/CHANGELOG.md).
 - `platforms` and `react-native-version` frontmatter fields on all skills; `## Applicability` section in each skill.
 
 ### Changed
+- Reviews file a finding only on a line the diff touches. `critical-rules` is limited to text crashes, hooks, updates after unmount, and secrets. Each skill states what is merge-blocking. Cold start order and safe area live in `architecture`. Validation checks that `code-review` routes every skill.
 - Reviews apply `critical-rules` on every diff and open other skills only when the change touches them. `critical-rules` keeps crash and data-loss checks and points security detail at `security`. Layout rules follow the app's existing structure. Performance advice virtualises lists that can grow and skips blanket memoisation. Specs, the install guide, and a worked review match the 19 skills. Plugin manifests are `1.2.0`.
 - Install guide counts 14 skills. `code-review` routes `critical-rules` and `conventions` on every change. Spec, critical-rules, conventions, and code-review include a correct/incorrect example. Plugin manifests are `1.1.0`. Kiro section records the registry submission.
 - Plugin logo in `.cursor-plugin/plugin.json` now points to `assets/logo.svg`.

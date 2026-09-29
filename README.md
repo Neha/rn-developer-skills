@@ -26,7 +26,7 @@ The same skills inform all three stages: what guides the build also defines the 
 ### Build & review (focused areas)
 | Skill | Description |
 |---|---|
-| [architecture](skills/architecture/SKILL.md) | Folder structure, navigation, deep linking, rendering safety, error boundaries, and code quality. |
+| [architecture](skills/architecture/SKILL.md) | Folder structure, navigation, deep linking, startup order, safe area, and rendering safety. |
 | [performance](skills/performance/SKILL.md) | Re-renders, list virtualisation, images, animations, and memory/resource cleanup. |
 | [accessibility](skills/accessibility/SKILL.md) | Labels, roles, touch targets, focus order, colour, and dynamic type. |
 | [state-and-data](skills/state-and-data/SKILL.md) | Server state, caching, offline behaviour, network transitions, transactions, and loading/empty/error states. |
@@ -45,7 +45,7 @@ The same skills inform all three stages: what guides the build also defines the 
 ### Baseline
 | Skill | Description |
 |---|---|
-| [critical-rules](skills/critical-rules/SKILL.md) | Non-negotiable crash and data-loss rules that apply to every change. |
+| [critical-rules](skills/critical-rules/SKILL.md) | Crash and secret checks that apply to lines the diff touches. |
 | [conventions](skills/conventions/SKILL.md) | Project conventions for structure, TypeScript, naming, file size, and hygiene. Apply when a change adds files or changes structure or types. |
 
 ### Audit
@@ -107,6 +107,8 @@ claude plugin install rn-developer-skills@rn-developer-skills
 Listing in Anthropic's public plugin directory is a separate submission from the repository owner. Local and GitHub installs above do not require that listing.
 
 By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them. A copy installed earlier stays at that old version until you pass `--force` or reinstall the plugin.
+
+A plugin install and a copied folder are separate. The plugin does not update `~/.agents/skills`, `~/.claude/skills`, or `~/.cursor/skills`. If both are present, the agent can follow the older file. Keep one: reinstall the plugin and delete the copied folder, or update the folder with `--force` and do not also load the plugin.
 
 ### Cursor (recommended)
 
@@ -173,7 +175,7 @@ Start with `spec-authoring` for a new feature, use only the focused skills the f
 
 Examples:
 
-- **Login screen:** `spec-authoring`, then `forms-and-validation` and `security`, then `testing`, then `code-review`.
+- **Login screen:** `spec-authoring`, then `forms-and-validation`, `security`, `accessibility`, and `error-handling`, then `testing`, then `code-review`.
 - **New list screen:** `spec-authoring`, then `architecture`, `performance`, `accessibility`, and `state-and-data`, then `testing`, then `code-review`.
 - **React Native bump:** `upgrades`, then `testing`, then `release-and-updates` if a store build is part of the same change.
 

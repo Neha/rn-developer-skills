@@ -1,7 +1,7 @@
 ---
 name: notifications
 description: Handle push and local notifications, permission timing, tap routing, and payload privacy. Use when adding notifications, handling a tap, or reviewing background delivery.
-version: 1.0.0
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, notifications, push]
@@ -22,6 +22,11 @@ tags: [react-native, notifications, push]
 
 Permission prompts in general belong to [native-integration](../native-integration/SKILL.md). Whether a deep link target is allowed belongs to [security](../security/SKILL.md).
 
+## Severity
+
+- **Merge-blocking:** the payload can navigate to an arbitrary screen, or the background handler is registered inside a component.
+- **Should-fix:** channel names and when the permission prompt appears.
+
 ## Guidance
 
 ### Permission and registration
@@ -32,9 +37,12 @@ Permission prompts in general belong to [native-integration](../native-integrati
 
 ### Delivery
 
+The background handler is registered from the application entry file, not from inside a component. Cold-start order (restore the session, then consume the tap once) is owned by [architecture](../architecture/SKILL.md).
+
+- [ ] The background handler is registered at startup, outside the React tree
 - [ ] Foreground, background, and killed-app taps all open the same destination
-- [ ] The destination params are validated before navigation (see [security](../security/SKILL.md))
-- [ ] A tap that arrives before navigation is ready is stored and consumed once, not dropped and not applied twice
+- [ ] The destination is one of the allowed routes (see [security](../security/SKILL.md))
+- [ ] A tap that arrives before navigation is ready is stored and consumed once
 - [ ] Android channels exist for the categories the user can tell apart; iOS uses a purpose the user can understand
 
 **Incorrect:**
@@ -67,5 +75,5 @@ function onNotification(remoteMessage) {
 
 ## Pitfalls
 
-- A killed-app tap is delivered on the next cold start, which is a different lifecycle from a foreground event.
+- A killed-app tap is delivered on the next cold start, before navigation exists. Store it and consume it after the session is restored.
 - Background delivery limits differ by platform; a handler that does network work can be suspended before it finishes.

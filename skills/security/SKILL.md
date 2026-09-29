@@ -1,7 +1,7 @@
 ---
 name: security
 description: Review React Native code for secret handling, secure storage, transport security, PII in logs, deep-link validation, input validation, and privacy compliance. Use when handling auth, payments, personal data, or before a security review.
-version: 1.1.0
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, security, privacy, compliance]
@@ -21,13 +21,31 @@ tags: [react-native, security, privacy, compliance]
 - Adding or reviewing deep links
 - Preparing for a security or privacy review
 
+## Severity
+
+- **Merge-blocking:** a secret or token in the client bundle, payment credentials stored on the device, or a link target this diff adds that is not an allowed route.
+- **Should-fix:** pinning, retention copy, and SDK log review.
+
 ## Guidance
 
 ### Secrets & Storage
 
-- [ ] No secrets, API keys, or tokens hardcoded (use environment variables)
+A secret does not belong in the client. Environment variables in React Native are compiled into the JavaScript bundle.
+
+- [ ] No private keys, tokens, or shared secrets in source, native projects, or env values that ship in the bundle
+- [ ] A public host or a publishable key may come from an env var
 - [ ] Sensitive data stored in the Keychain (iOS) / Keystore (Android), not plain storage
 - [ ] Payment credentials never stored locally (PCI)
+
+**Incorrect:**
+```tsx
+const apiSecret = process.env.API_SECRET;
+```
+
+**Correct:**
+```tsx
+const apiHost = process.env.API_HOST;
+```
 
 ### Transport
 
@@ -63,15 +81,18 @@ Missing route params that crash are owned by [architecture](../architecture/SKIL
 
 ### Auth Lifecycle
 
+Startup order and the navigation reset on sign-out are owned by [architecture](../architecture/SKILL.md).
+
 - [ ] Token refresh handled silently on 401, without losing form state
-- [ ] Auth state and navigation reset on sign-out
+- [ ] Sign-out deletes the session token from secure storage
 
 ### Privacy & Compliance
 
+Permission prompt timing is owned by [native-integration](../native-integration/SKILL.md).
+
 - [ ] No analytics or device-data collection before user consent (ATT on iOS, GDPR)
-- [ ] Data export and deletion supported (GDPR right to erasure)
+- [ ] The product has a path for export and deletion; this screen does not have to invent one unless the diff is that path
 - [ ] User data not retained beyond the retention policy
-- [ ] Permissions (camera, location) requested explicitly, with graceful denial handling
 
 ## Pitfalls
 

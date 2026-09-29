@@ -1,7 +1,7 @@
 ---
 name: error-handling
 description: Guide error boundaries, API failure UI, retry flows, and global handlers in React Native. Use when adding error recovery, reviewing failure states, or preventing silent failures.
-version: 1.0.0
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, errors, recovery]
@@ -22,6 +22,11 @@ tags: [react-native, errors, recovery]
 - Reviewing a screen that can fail and currently only handles the happy path
 
 Reporting the failure to a crash or analytics tool belongs to [observability](../observability/SKILL.md). Crash rules that apply to every render belong to [critical-rules](../critical-rules/SKILL.md).
+
+## Severity
+
+- **Merge-blocking:** a feature this diff adds can throw during render and take the app down with it, or a submit this diff adds swallows the error.
+- **Should-fix:** error copy and retry wording.
 
 ## Guidance
 
@@ -52,14 +57,15 @@ export default function App() {
 
 ### What the user sees
 
-- [ ] Every async screen has a loading, success, empty, and error state
-- [ ] The error copy says what happened and what to do next (retry, go back), not the raw server or native message
+Loading, empty, and error states for server data are owned by [state-and-data](../state-and-data/SKILL.md).
+
+- [ ] The error copy says what happened and what to do next, not the raw server or native message
 - [ ] A caught error the user can retry is not also shown as a full-screen crash
 
 ### Retry
 
-- [ ] Retry is explicit (a button or a single bounded automatic attempt), not an unbounded loop
-- [ ] POST and other non-idempotent calls are not retried automatically
+- [ ] Retry is an explicit button or a single bounded attempt, not an unbounded loop
+- [ ] Retrying a POST when the network returns is owned by [state-and-data](../state-and-data/SKILL.md)
 - [ ] A retry uses the same idempotency key as the original attempt when the server supports one
 
 ## Anti-Patterns

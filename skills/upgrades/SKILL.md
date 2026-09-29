@@ -1,7 +1,7 @@
 ---
 name: upgrades
 description: Upgrade React Native, adopt the New Architecture, and keep native dependencies aligned. Use when bumping React Native, enabling the New Architecture, or updating a native module.
-version: 1.0.0
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, upgrades, new-architecture]
@@ -20,6 +20,11 @@ tags: [react-native, upgrades, new-architecture]
 - Turning the New Architecture on, or adding a native module to an app that already uses it
 - A native dependency release forces an app upgrade
 
+## Severity
+
+- **Merge-blocking:** the app does not boot on iOS or Android, or a native module stays on a version that does not match this React Native bump.
+- **Should-fix:** how the bump is split, and smoke-test notes.
+
 ## Guidance
 
 ### Version jump
@@ -37,6 +42,22 @@ react-native 0.72 → 0.78 in one pull request, Android left for a follow-up
 **Correct:**
 ```text
 One minor at a time, each step building and launching on iOS and Android, with native modules upgraded in the same step
+```
+
+### Native version matrix
+
+- [ ] Kotlin, the iOS deployment target, and the Android min SDK match what the target React Native version requires
+- [ ] Codegen has been run for native modules that need it, and the app still builds
+- [ ] Libraries that ship native code and must move together are upgraded in the same change (navigation screens, gesture handler, and animated-on-the-UI-thread libraries)
+
+**Incorrect:**
+```text
+react-native bumped; react-native-screens and react-native-gesture-handler left on the previous major
+```
+
+**Correct:**
+```text
+react-native, screens, and gesture-handler moved to the versions that release says belong together, then both platforms launched
 ```
 
 ### New Architecture

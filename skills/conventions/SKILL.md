@@ -1,7 +1,7 @@
 ---
 name: conventions
 description: Baseline React Native project conventions for structure, TypeScript, naming, file size, and hygiene. Use when setting up a project, writing new code, or reviewing for consistency.
-version: 1.2.0
+version: 1.3.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, conventions, structure, style]
@@ -21,6 +21,10 @@ tags: [react-native, conventions, structure, style]
 - Reviewing a change for consistency with project conventions
 
 These conventions are intended to apply across all work rather than to one activity. See also [architecture](../architecture/SKILL.md), [testing](../testing/SKILL.md), and [code-review](../code-review/SKILL.md).
+
+## Severity
+
+Findings from this skill are should-fix. They do not block a merge.
 
 ## Guidance
 
@@ -58,12 +62,14 @@ function Profile({ user }: ProfileProps) {
 
 ### Naming
 
-- [ ] Skill and feature directories use kebab-case (`state-and-data`, not `StateAndData`)
+- [ ] New app files use the casing already in the tree
 - [ ] Components use PascalCase; hooks use `useCamelCase`; constants use `UPPER_SNAKE_CASE`
 
-### File Size
+Skill folders in this repository use kebab-case. That rule is for this repo, not for the app under review.
 
-- [ ] Files kept under ~300 lines and functions under ~50 lines (split when larger)
+### File size
+
+A file past roughly 300 lines, or a function past roughly 50, is a prompt to split. It is not a review finding on its own.
 
 ### Hygiene
 

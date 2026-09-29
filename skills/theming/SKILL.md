@@ -1,7 +1,7 @@
 ---
 name: theming
 description: Apply colour scheme, dark mode, and theme tokens in React Native. Use when adding a theme, supporting dark mode, or replacing hardcoded colours.
-version: 1.0.0
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, theming, dark-mode]
@@ -21,6 +21,10 @@ tags: [react-native, theming, dark-mode]
 - Checking contrast, status bar, and images against the active scheme
 
 Contrast and dynamic type also belong to [accessibility](../accessibility/SKILL.md). User-facing theme names belong to [i18n-and-localization](../i18n-and-localization/SKILL.md).
+
+## Severity
+
+Findings from this skill are should-fix.
 
 ## Guidance
 
@@ -49,8 +53,9 @@ const colors = useThemeColors();
 
 ### Contrast
 
-- [ ] Text and icons on the themed background meet the contrast used for the rest of the app (see [accessibility](../accessibility/SKILL.md))
-- [ ] State is not communicated by a theme colour alone
+Safe-area insets are owned by [architecture](../architecture/SKILL.md). Colour-only state is owned by [accessibility](../accessibility/SKILL.md).
+
+- [ ] Text and icons on the themed background stay readable in both schemes (see [accessibility](../accessibility/SKILL.md))
 
 ## Anti-Patterns
 

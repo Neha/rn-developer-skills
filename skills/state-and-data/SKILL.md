@@ -1,7 +1,7 @@
 ---
 name: state-and-data
-description: Review React Native data and state handling — server state with a query library, caching and staleness, offline behaviour, network transitions, transactions, and loading/empty/error states. Use when wiring up APIs, handling offline, or reviewing data flow.
-version: 1.1.0
+description: Review React Native data and state handling — one cache for server data, staleness, offline behaviour, network transitions, and transactions. Use when wiring up APIs, handling offline, or reviewing data flow.
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, state, data, networking, offline]
@@ -21,17 +21,22 @@ tags: [react-native, state, data, networking, offline]
 - Handling offline mode, network transitions, or flaky connections
 - Implementing payments, checkout, or other critical transactions
 
+## Severity
+
+- **Merge-blocking:** a POST this diff adds is retried when the network returns, or a payment is treated as success from the client callback alone.
+- **Should-fix:** cache freshness, optimistic updates, and empty-state copy.
+
 ## Guidance
 
 ### Server State
 
-- [ ] Server state uses a query library (e.g. TanStack Query), not local `useState` for API data
-- [ ] No server state duplicated into local state
-- [ ] Appropriate `staleTime` set per data type (not the default 0 for everything)
-- [ ] Mutations use optimistic updates (`onMutate`) where appropriate, with rollback on error
-- [ ] Loading states shown (skeleton or spinner)
-- [ ] Empty states handled (no blank screens)
-- [ ] Error states handled, not just the happy path
+Keep server data in one cache. That cache may be the store the app already uses.
+
+- [ ] Server data is not copied into a second `useState` that can drift from the cache
+- [ ] Freshness is chosen per data type, rather than refetching on every mount
+- [ ] An optimistic update rolls back when the request fails
+- [ ] Loading and empty states are shown for the query this diff adds
+- [ ] A failed query shows an error state. The fallback and retry policy are owned by [error-handling](../error-handling/SKILL.md)
 
 **Incorrect:**
 ```tsx
@@ -89,7 +94,7 @@ try {
 - [ ] Success confirmed server-side, not from a client callback alone
 - [ ] Interruption handled (user kills the app mid-transaction)
 - [ ] External redirects (OAuth, 3DS) return cleanly to the app
-- [ ] POST requests not auto-retried on network restore (avoids duplicates)
+- [ ] POST requests this diff adds are not auto-retried when the network returns (this skill owns that rule)
 
 **Incorrect:**
 ```tsx
@@ -116,7 +121,7 @@ const onPay = async () => {
 
 | Anti-Pattern | Risk | Fix |
 |---|---|---|
-| `useState` + `useEffect` for API data | Race conditions, no cache, no retry | Use a query library |
+| A second `useState` copy of server data | The screen and the cache disagree | Read from the one cache the app already uses |
 | Global store for server data | Stale data, manual refetching | Let the query library own it |
 | Direct fetch/axios in components | Untestable, no caching, repeated code | Abstract into query hooks |
 | Fire-and-forget async | Silent failures | Always handle errors |

@@ -1,7 +1,7 @@
 ---
 name: testing
 description: Guidance for testing React Native code — unit tests for logic, component tests for behaviour, E2E for critical paths, and edge-case coverage. Use when adding tests, reviewing test quality, or setting a coverage bar.
-version: 1.1.0
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, testing, quality]
@@ -20,6 +20,10 @@ tags: [react-native, testing, quality]
 - Reviewing whether a change is adequately tested before merge
 - Deciding what to test and at which level
 - Investigating a regression that tests should have caught
+
+## Severity
+
+A missing test is should-fix. It blocks a merge only when the project's own policy says so.
 
 ## Guidance
 

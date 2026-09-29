@@ -8,6 +8,7 @@
  *    `platforms`, `react-native-version`)
  *  - the `name` value matches the containing directory name
  *  - every skill directory under skills/ appears in the README skill index
+ *  - every skill other than code-review is linked from skills/code-review/SKILL.md
  *  - .cursor-plugin/plugin.json passes schema validation (see validate-plugin.mjs)
  *
  * Exits non-zero if any check fails; zero if all pass.
@@ -157,6 +158,20 @@ async function main() {
       indexedNames.add(name);
     } else {
       fail(`Skill "${name}" is not listed in the README skill index.`);
+    }
+  }
+
+  // code-review is the router. Every other skill must be linked from it.
+  let reviewContent = '';
+  try {
+    reviewContent = await readFile(join(SKILLS_DIR, 'code-review', 'SKILL.md'), 'utf8');
+  } catch {
+    fail('skills/code-review/SKILL.md not found.');
+  }
+  for (const name of skillDirNames) {
+    if (name === 'code-review') continue;
+    if (!reviewContent.includes(`${name}/SKILL.md`)) {
+      fail(`Skill "${name}" is not routed from skills/code-review/SKILL.md.`);
     }
   }
 

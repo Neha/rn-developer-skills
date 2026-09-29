@@ -1,7 +1,7 @@
 ---
 name: architecture
-description: Review and structure React Native features for correct folder layout, navigation, deep linking, error boundaries, rendering safety, and code quality. Use when designing a new feature, reviewing structure, or isolating crashes.
-version: 1.1.0
+description: Review and structure React Native features for folder layout, navigation, deep links, startup order, and safe area. Use when designing a new feature, reviewing structure, or isolating crashes.
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, architecture, navigation, structure]
@@ -22,6 +22,11 @@ tags: [react-native, architecture, navigation, structure]
 - Isolating crashes so one feature cannot take down the whole app
 - Checking general code quality before merge
 
+## Severity
+
+- **Merge-blocking:** a missing param in this diff crashes, sign-out leaves an authenticated screen reachable, or content this diff adds sits under the notch or home indicator and cannot be reached.
+- **Should-fix:** folder layout, type-safe params, and back-stack expectations.
+
 ## Guidance
 
 ### Feature Structure
@@ -36,13 +41,27 @@ Follow the folder layout the app already uses. Use the feature-folder layout whe
 ### Navigation & Deep Linking
 
 - [ ] Screen registered in navigation with type-safe params
-- [ ] Deep link configured for every navigable screen
-- [ ] Deep link handles both cold start and background resume (different lifecycles)
-- [ ] Deep links to authenticated screens check auth state first
+- [ ] A screen is deep-linked only when a person or another app should open it directly. A payment step, a modal, or an intermediate form screen does not get its own link
+- [ ] A deep link that exists handles both cold start and background resume
+- [ ] Deep links to authenticated screens check auth state first (startup order is below)
 - [ ] Expired or invalid deep link content handled gracefully
 - [ ] Navigation params treated as optional so a missing param does not crash. Whether the link target is allowed is owned by [security](../security/SKILL.md)
 - [ ] Back button goes to the expected screen
-- [ ] Navigation stack reset on sign-out (no deep-linking back into authenticated content)
+
+### Startup
+
+This skill owns the order. [notifications](../notifications/SKILL.md) owns the payload. [security](../security/SKILL.md) owns whether the target is allowed.
+
+- [ ] Cold start restores the session before it handles a link or a notification
+- [ ] A link or notification that arrived during startup is stored and consumed once, after navigation can act on it
+- [ ] Sign-out clears the session and the navigation stack, so a link cannot return to an authenticated screen
+
+### Screen chrome
+
+Safe area is owned here. Status-bar colours that depend on the theme are owned by [theming](../theming/SKILL.md).
+
+- [ ] Content clears the status bar, notch, and home indicator, including while the keyboard is open
+- [ ] A control that the safe area would cover can still be reached
 
 **Incorrect:**
 ```tsx

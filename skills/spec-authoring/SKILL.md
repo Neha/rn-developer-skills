@@ -1,7 +1,7 @@
 ---
 name: spec-authoring
 description: Write a spec before building — capturing requirements, design, and tasks in order, with traceability between them. Use when starting any non-trivial feature so work is planned before code is written (Spec/Skill-Driven Development).
-version: 1.2.0
+version: 1.3.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [spec, planning, ssd, requirements, design]
@@ -22,6 +22,10 @@ tags: [spec, planning, ssd, requirements, design]
 - Whenever you would otherwise jump straight to code and risk rework
 
 This is the entry point for Spec/Skill-Driven Development (SSD): plan the work as a spec, then use the focused skills to guide and review the build.
+
+## Severity
+
+This skill is a planning step. It is not a merge gate.
 
 ## Guidance
 
@@ -57,32 +61,17 @@ Keep the chain intact: **each requirement → one or more design elements → on
 
 ### Focused Skills as Inputs
 
-When writing the design and the review criteria for an RN feature, pull from the focused skills in this repository:
+Name the skills this feature touches. Three or four is typical. Do not paste the full catalog into the spec.
 
-- [architecture](../architecture/SKILL.md) — structure and navigation, following the app's existing layout
-- [performance](../performance/SKILL.md) — lists, images, animations
-- [accessibility](../accessibility/SKILL.md) — labels, focus, contrast
-- [state-and-data](../state-and-data/SKILL.md) — server state, cache, offline
-- [security](../security/SKILL.md) — auth, storage, untrusted link targets
-- [forms-and-validation](../forms-and-validation/SKILL.md) — inputs, validation, submit
-- [native-integration](../native-integration/SKILL.md) — permissions and native APIs
-- [observability](../observability/SKILL.md) — crash reporting and analytics
-- [i18n-and-localization](../i18n-and-localization/SKILL.md) — strings, locale, RTL
-- [error-handling](../error-handling/SKILL.md) — failure UI and retry
-- [notifications](../notifications/SKILL.md) — push and local alerts
-- [theming](../theming/SKILL.md) — colour scheme and tokens
-- [upgrades](../upgrades/SKILL.md) — React Native and New Architecture bumps
-- [release-and-updates](../release-and-updates/SKILL.md) — store builds and over-the-air updates
-- [testing](../testing/SKILL.md) — what to test, and at which level
-- [code-review](../code-review/SKILL.md) — the audit entry point for the finished build
+Open a skill when the feature does that kind of work: navigation (`architecture`), a list or animation (`performance`), a control (`accessibility`), server data (`state-and-data`), auth or a link target (`security`), inputs (`forms-and-validation`), a permission (`native-integration`), analytics (`observability`), new copy (`i18n-and-localization`), a failure path (`error-handling`), push (`notifications`), colours (`theming`), a React Native bump (`upgrades`), a store or over-the-air build (`release-and-updates`). Finish with `testing` and `code-review`.
 
-Pull a skill when the feature touches that concern. A favourites screen does not need the notifications skill.
-
-If a referenced skill is not present in `skills/`, note it as unavailable rather than silently dropping it.
+If a skill you named is not in `skills/`, say it is unavailable rather than dropping it silently.
 
 ## Worked Example
 
-A complete, illustrative spec for a small RN feature — "Save an item to favourites".
+A spec for "Save an item to favourites".
+
+**Skills used:** `state-and-data`, `accessibility`, `error-handling`, `testing`. No forms, notifications, or upgrades.
 
 ### Requirements
 
@@ -106,7 +95,7 @@ Acceptance Criteria:
 ### Design
 
 - **Storage:** favourites stored in a fast key-value store, keyed by item id; read on app start into the query cache.
-- **State:** server-synced favourites managed by the query library with optimistic updates; `onMutate` toggles the control immediately and rolls back on error (satisfies R1.1, R1.3).
+- **State:** server-synced favourites live in the app's existing cache, with an optimistic toggle that rolls back when the write fails (satisfies R1.1, R1.3). The failure UI comes from `error-handling`.
 - **Screens:** `FavouritesScreen` (list + empty state) and a reusable `FavouriteButton` (accessible control). `FavouriteButton` carries an `accessibilityLabel` and `accessibilityState` (R-a11y).
 - **Offline:** list reads come from cache first; an offline indicator is shown when disconnected (satisfies R2.1).
 - **Traceability:** R1 → optimistic mutation + storage; R2 → cached read + empty state.
