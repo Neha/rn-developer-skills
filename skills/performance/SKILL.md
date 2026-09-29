@@ -1,7 +1,7 @@
 ---
 name: performance
 description: Review React Native code for rendering performance, list virtualisation, memoisation, image handling, animations, and memory/resource cleanup. Use when a screen feels janky, before merging UI-heavy code, or when profiling.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, performance, memory, rendering]
@@ -25,32 +25,27 @@ tags: [react-native, performance, memory, rendering]
 
 ### Rendering
 
-- [ ] No inline functions passed as props to memoised children (breaks `React.memo`)
-- [ ] Heavy computations wrapped in `useMemo`
-- [ ] Callbacks passed as props wrapped in `useCallback`
-- [ ] Inline styles extracted to `StyleSheet.create` (no new object per render)
-- [ ] No unnecessary re-renders (verify with a tool such as why-did-you-render)
+Measure before adding memoisation. If the React Compiler is enabled for the file, do not add `useMemo` or `useCallback` only to satisfy this list.
+
+- [ ] A hot child that is already wrapped in `React.memo` does not receive a new function or object on every render
+- [ ] A computation that shows up in a profile is cached; trivial work is left as is
+- [ ] Styles in a list row are not new objects on every render
 
 **Incorrect:**
 ```tsx
-// New function every render, breaks React.memo on the child
 <UserCard onPress={() => handlePress(user.id)} />
 ```
 
 **Correct:**
 ```tsx
-const handleUserPress = useCallback((id: string) => {
-  handlePress(id);
-}, [handlePress]);
-
-<UserCard onPress={handleUserPress} userId={user.id} />
+<UserCard onPress={handlePress} userId={user.id} />
 ```
 
 ### Lists
 
-- [ ] Long lists use a virtualised, high-performance list (e.g. FlashList), not a plain `FlatList`
+- [ ] A list that can grow past one screen is virtualised. A short, bounded list may use a plain list
 - [ ] Large data sets paginate or use infinite scroll, never render the full array
-- [ ] List items are memoised where appropriate
+- [ ] List items are memoised when a profile shows the row re-rendering unnecessarily
 
 ### Images
 
@@ -95,10 +90,10 @@ useEffect(() => {
 
 | Anti-Pattern | Risk | Fix |
 |---|---|---|
-| `FlatList` for long lists | Frame drops | Use FlashList or equivalent |
+| Plain list for a list that can grow without bound | Frame drops | Virtualise (a virtualised list such as FlashList when the default list is not enough) |
 | Frequent reads from slow storage | Blocks JS thread | Use a fast key-value store (e.g. MMKV) |
 | `Animated` API for complex animations | JS-thread jank | Use Reanimated |
-| Inline styles in render | New object each render, breaks memo | `StyleSheet.create` |
+| New style object on every row render | Extra work in a long list | Stable styles, for example `StyleSheet.create` or a module-level object |
 | Over-memoising trivial components | Adds overhead with no benefit | Measure first, memoise hotspots |
 
 ## Pitfalls

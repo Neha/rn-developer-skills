@@ -1,10 +1,10 @@
 ---
 name: critical-rules
-description: Non-negotiable React Native rules that prevent crashes, data loss, security breaches, and compliance violations. Use on every change as a baseline safety check, regardless of the task.
-version: 1.1.0
+description: Non-negotiable React Native rules that prevent crashes and data loss. Use on every change as a baseline safety check, regardless of the task.
+version: 2.0.0
 platforms: [ios, android]
 react-native-version: 0.76+
-tags: [react-native, safety, crashes, security, compliance]
+tags: [react-native, safety, crashes, data-loss]
 ---
 
 # Critical Rules
@@ -17,10 +17,9 @@ tags: [react-native, safety, crashes, security, compliance]
 ## When to Use
 
 - On every React Native change, as a baseline safety check
-- Before merging any code that touches rendering, data, auth, or storage
-- When reviewing a change for crash, data-loss, security, or compliance risk
+- Before merging any code that touches rendering or user data
 
-These rules are intended to apply broadly rather than to one activity. The detailed guidance behind them lives in the related skills: [architecture](../architecture/SKILL.md), [state-and-data](../state-and-data/SKILL.md), and [security](../security/SKILL.md).
+These checks block a merge. Deeper security, privacy, and compliance checks live in [security](../security/SKILL.md) and block a merge only when the diff touches that area. Form preservation in detail lives in [forms-and-validation](../forms-and-validation/SKILL.md). Failure UI lives in [error-handling](../error-handling/SKILL.md).
 
 ## Guidance
 
@@ -48,35 +47,25 @@ These rules are intended to apply broadly rather than to one activity. The detai
 
 ### Data Loss
 
-- [ ] Form state preserved when navigating back
+- [ ] Unsaved user input is not discarded silently (the form rules live in [forms-and-validation](../forms-and-validation/SKILL.md))
 - [ ] Transaction interruption handled (user kills the app mid-operation)
 - [ ] Critical actions confirmed server-side, not from the client alone
 - [ ] POST requests never auto-retried on network restore (avoids duplicate submissions)
 - [ ] Destructive offline mutations never queued without user confirmation
 
-### Security
+### Secrets on every change
 
 - [ ] No secrets, API keys, or tokens hardcoded
-- [ ] Sensitive data stored only in Keychain (iOS) / Keystore (Android)
-- [ ] SSL pinning on critical API endpoints (payments, auth)
 - [ ] No PII (names, emails, payment info) logged to console or crash reports
-- [ ] Deep-link params validated before navigating (prevent open redirect)
-- [ ] Auth state and navigation reset on sign-out
-- [ ] Payment credentials never stored locally (PCI)
 
-### Compliance
-
-- [ ] No analytics or device-data collection before user consent (ATT on iOS, GDPR)
-- [ ] Data export and deletion supported (GDPR right to erasure)
-- [ ] User data not retained beyond the retention policy
-- [ ] Permissions (camera, location) requested explicitly, with graceful denial handling
+Storage, transport, deep-link targets, auth reset, consent, and retention are checked with [security](../security/SKILL.md) when the diff touches them. They are not re-checked on an unrelated change.
 
 ### Network
 
 - [ ] Network timeouts handled (never hang forever)
-- [ ] 401 handled with silent token refresh, not a crash
-- [ ] Client-side validation never trusted alone
 - [ ] In-progress requests cancelled on screen unmount
+
+Token refresh on 401, and trusting the client as the only validator, are checked with [security](../security/SKILL.md) when the diff touches auth or a request.
 
 ### Dates
 
@@ -85,5 +74,5 @@ These rules are intended to apply broadly rather than to one activity. The detai
 
 ## Pitfalls
 
-- These are baseline rules, not the full picture — the focused skills (`architecture`, `state-and-data`, `security`) explain the *why* and show correct/incorrect examples.
-- A rule that "usually" holds is still worth checking every time; crashes and leaks come from the one case that was skipped.
+- A copy or style change still runs the crash and data-loss checks. It does not need the full security or compliance list.
+- Text rendered from a value of `0` is owned by this skill. Do not file the same finding from another skill.

@@ -1,7 +1,7 @@
 ---
 name: conventions
 description: Baseline React Native project conventions for structure, TypeScript, naming, file size, and hygiene. Use when setting up a project, writing new code, or reviewing for consistency.
-version: 1.1.0
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, conventions, structure, style]
@@ -26,9 +26,10 @@ These conventions are intended to apply across all work rather than to one activ
 
 ### Project Structure
 
-- [ ] One feature per folder under `src/features/{name}/`
-- [ ] Features share code only through a `shared/` module — no cross-feature imports
-- [ ] Each feature exposes its public API through a barrel `index.ts`
+Follow the folder layout the app already uses. Apply the feature-folder checks when starting a new app, or when that app already uses feature folders.
+
+- [ ] New files match the surrounding layout
+- [ ] When using feature folders: one feature per folder under `src/features/{name}/`, shared code only through `shared/`, and a barrel `index.ts` for the public API
 - [ ] Concerns separated: screens (layout), components (reusable UI), hooks (logic), utils (pure functions)
 
 ### TypeScript

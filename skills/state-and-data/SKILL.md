@@ -1,7 +1,7 @@
 ---
 name: state-and-data
 description: Review React Native data and state handling — server state with a query library, caching and staleness, offline behaviour, network transitions, transactions, and loading/empty/error states. Use when wiring up APIs, handling offline, or reviewing data flow.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, state, data, networking, offline]
@@ -52,8 +52,9 @@ const { data: users } = useQuery({
 
 ### Form & Local State
 
-- [ ] Form state preserved on navigation away and back
-- [ ] State not reset by keyboard appearance or orientation change
+Dirty form input, validation, and unsaved-change prompts are owned by [forms-and-validation](../forms-and-validation/SKILL.md).
+
+- [ ] Non-form UI state is not reset by keyboard appearance or orientation change
 
 ### Offline & Network Transitions
 

@@ -1,7 +1,7 @@
 ---
 name: forms-and-validation
 description: Review React Native forms for validation timing, keyboard handling, error focus, and preserved dirty state. Use when building or reviewing login, signup, checkout, settings, or multi-step forms.
-version: 1.0.0
+version: 1.0.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, forms, validation, keyboard]
@@ -23,6 +23,8 @@ tags: [react-native, forms, validation, keyboard]
 ## Guidance
 
 ### State
+
+This skill owns whether dirty form input survives navigation. [critical-rules](../critical-rules/SKILL.md) only checks that unsaved input is not discarded silently.
 
 - [ ] Each field has one source of truth; the screen does not mix uncontrolled inputs with a second copy of the same value
 - [ ] Dirty values survive leaving the screen and coming back, including when the app is backgrounded mid-edit

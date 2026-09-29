@@ -36,17 +36,22 @@ The same skills inform all three stages: what guides the build also defines the 
 | [forms-and-validation](skills/forms-and-validation/SKILL.md) | Form state, validation timing, keyboard handling, error focus, and submit safety. |
 | [observability](skills/observability/SKILL.md) | Crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging. |
 | [i18n-and-localization](skills/i18n-and-localization/SKILL.md) | Extracted strings, plurals, locale-aware formatting, RTL layout, and fallback locales. |
+| [error-handling](skills/error-handling/SKILL.md) | Error boundaries, failure UI, retry, and global handlers. |
+| [notifications](skills/notifications/SKILL.md) | Push and local notifications, permission timing, tap routing, and payload privacy. |
+| [theming](skills/theming/SKILL.md) | Colour tokens, dark mode, and system appearance. |
+| [upgrades](skills/upgrades/SKILL.md) | React Native upgrades and the New Architecture. |
+| [release-and-updates](skills/release-and-updates/SKILL.md) | Store builds, versioning, and over-the-air JavaScript updates. |
 
-### Baseline (apply to every change)
+### Baseline
 | Skill | Description |
 |---|---|
-| [critical-rules](skills/critical-rules/SKILL.md) | Non-negotiable rules that prevent crashes, data loss, security breaches, and compliance violations. |
-| [conventions](skills/conventions/SKILL.md) | Project conventions for structure, TypeScript, naming, file size, and hygiene. |
+| [critical-rules](skills/critical-rules/SKILL.md) | Non-negotiable crash and data-loss rules that apply to every change. |
+| [conventions](skills/conventions/SKILL.md) | Project conventions for structure, TypeScript, naming, file size, and hygiene. Apply when a change adds files or changes structure or types. |
 
 ### Audit
 | Skill | Description |
 |---|---|
-| [code-review](skills/code-review/SKILL.md) | Entry point that routes each concern to its focused skill and defines the review output format. |
+| [code-review](skills/code-review/SKILL.md) | Entry point that applies crash and data-loss rules on every change, and opens another skill only when the diff touches that concern. |
 
 ## Installation
 
@@ -101,7 +106,7 @@ claude plugin install rn-developer-skills@rn-developer-skills
 
 Listing in Anthropic's public plugin directory is a separate submission from the repository owner. Local and GitHub installs above do not require that listing.
 
-By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them.
+By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them. A copy installed earlier stays at that old version until you pass `--force` or reinstall the plugin.
 
 ### Cursor (recommended)
 
@@ -125,7 +130,7 @@ Shortcut: `Cmd+Shift+P` → **Cursor: Open Plugin Marketplace**
    ```
 
 2. Reload Cursor: `Cmd+Shift+P` → **Developer: Reload Window**
-3. Open **Customize → Skills** and confirm all 14 skills appear.
+3. Open **Customize → Skills** and confirm all 19 skills appear.
 4. Invoke a skill in chat, e.g. `/spec-authoring` or `/code-review`.
 
 **Team Marketplace** *(Cursor Teams/Enterprise)*
@@ -164,7 +169,13 @@ Each `SKILL.md` follows the same shape, so any skill is predictable to navigate:
 - **Anti-Patterns** *(where useful)* — a table of common mistakes and their fixes.
 - **Pitfalls** — subtle gotchas the checklist alone does not catch.
 
-Start with `spec-authoring` for a new feature, reach for the focused skills while building, and finish with `code-review`.
+Start with `spec-authoring` for a new feature, use only the focused skills the feature touches, and finish with `code-review`.
+
+Examples:
+
+- **Login screen:** `spec-authoring`, then `forms-and-validation` and `security`, then `testing`, then `code-review`.
+- **New list screen:** `spec-authoring`, then `architecture`, `performance`, `accessibility`, and `state-and-data`, then `testing`, then `code-review`.
+- **React Native bump:** `upgrades`, then `testing`, then `release-and-updates` if a store build is part of the same change.
 
 ## Repository Layout
 

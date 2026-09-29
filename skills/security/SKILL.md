@@ -1,7 +1,7 @@
 ---
 name: security
 description: Review React Native code for secret handling, secure storage, transport security, PII in logs, deep-link validation, input validation, and privacy compliance. Use when handling auth, payments, personal data, or before a security review.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, security, privacy, compliance]
@@ -31,7 +31,7 @@ tags: [react-native, security, privacy, compliance]
 
 ### Transport
 
-- [ ] Critical endpoints (payments, auth) use SSL pinning
+- [ ] Pin transport for payments or auth only when the threat model requires it, and document how the pin rotates. Do not pin local debug builds
 - [ ] Client-side validation is never trusted alone — the server validates too
 
 ### Logging & PII
@@ -56,7 +56,9 @@ logger.info('Payment completed', {
 
 ### Deep Links & Input
 
-- [ ] Deep-link params validated before navigation (prevent open redirect)
+Missing route params that crash are owned by [architecture](../architecture/SKILL.md). This skill checks the target.
+
+- [ ] The link target is one of the routes the app allows (prevent open redirect)
 - [ ] Input validated on the client (in addition to, not instead of, the server)
 
 ### Auth Lifecycle

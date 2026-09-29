@@ -1,7 +1,7 @@
 ---
 name: spec-authoring
 description: Write a spec before building — capturing requirements, design, and tasks in order, with traceability between them. Use when starting any non-trivial feature so work is planned before code is written (Spec/Skill-Driven Development).
-version: 1.1.0
+version: 1.2.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [spec, planning, ssd, requirements, design]
@@ -59,13 +59,24 @@ Keep the chain intact: **each requirement → one or more design elements → on
 
 When writing the design and the review criteria for an RN feature, pull from the focused skills in this repository:
 
-- [architecture](../architecture/SKILL.md) — informs design (structure, navigation) and review criteria
-- [performance](../performance/SKILL.md) — informs design (lists, images, animations) and review criteria
-- [accessibility](../accessibility/SKILL.md) — informs design and review criteria
-- [state-and-data](../state-and-data/SKILL.md) — informs design (data flow, offline) and review criteria
-- [security](../security/SKILL.md) — informs design (auth, storage) and review criteria
-- [testing](../testing/SKILL.md) — informs review criteria (what to test, at which level)
-- [code-review](../code-review/SKILL.md) — the audit entry point used to review the finished build
+- [architecture](../architecture/SKILL.md) — structure and navigation, following the app's existing layout
+- [performance](../performance/SKILL.md) — lists, images, animations
+- [accessibility](../accessibility/SKILL.md) — labels, focus, contrast
+- [state-and-data](../state-and-data/SKILL.md) — server state, cache, offline
+- [security](../security/SKILL.md) — auth, storage, untrusted link targets
+- [forms-and-validation](../forms-and-validation/SKILL.md) — inputs, validation, submit
+- [native-integration](../native-integration/SKILL.md) — permissions and native APIs
+- [observability](../observability/SKILL.md) — crash reporting and analytics
+- [i18n-and-localization](../i18n-and-localization/SKILL.md) — strings, locale, RTL
+- [error-handling](../error-handling/SKILL.md) — failure UI and retry
+- [notifications](../notifications/SKILL.md) — push and local alerts
+- [theming](../theming/SKILL.md) — colour scheme and tokens
+- [upgrades](../upgrades/SKILL.md) — React Native and New Architecture bumps
+- [release-and-updates](../release-and-updates/SKILL.md) — store builds and over-the-air updates
+- [testing](../testing/SKILL.md) — what to test, and at which level
+- [code-review](../code-review/SKILL.md) — the audit entry point for the finished build
+
+Pull a skill when the feature touches that concern. A favourites screen does not need the notifications skill.
 
 If a referenced skill is not present in `skills/`, note it as unavailable rather than silently dropping it.
 
