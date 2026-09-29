@@ -140,7 +140,7 @@ This repository is an [Agent Plugin](https://kiro.dev/docs/powers/create/) Kiro 
 
 In Kiro, open the Powers panel, choose **Add Custom Power**, then **Import power from GitHub**, and use `https://github.com/Neha/rn-developer-skills`. Keywords such as `react-native` and `code-review` activate it.
 
-A public powers-registry listing, if you want one beyond GitHub import, is requested from the Kiro powers panel after this manifest is on `main`.
+To request a listing in Kiro’s powers registry, submit this repository at [kiro.dev/powers/submit](https://kiro.dev/powers/submit).
 
 ### Manual / other tools
 
@@ -183,6 +183,14 @@ assets/            logo and announcement image
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose a new skill or edit an existing one, including the required `SKILL.md` structure and frontmatter. New skills should pass `node scripts/validate-skills.mjs` and be added to the Skill Index above. Pull requests get an automated first pass from CodeRabbit once the GitHub App is installed; see CONTRIBUTING.md.
+
+## Privacy
+
+This collection does not collect personal data. See the [privacy policy](PRIVACY.md).
+
+## Support
+
+Open a [GitHub issue](https://github.com/Neha/rn-developer-skills/issues) or email [nsharma215@gmail.com](mailto:nsharma215@gmail.com).
 
 ## License
 

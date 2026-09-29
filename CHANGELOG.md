@@ -14,6 +14,7 @@ Per-skill history lives in [`skills/CHANGELOG.md`](skills/CHANGELOG.md).
 - `.coderabbit.yaml` so pull requests get an automated review aligned with the skill index, scripts, and workflows. Reviews stay advisory until branch protection requires the check.
 - Claude Code plugin and marketplace manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`) so the collection can be installed with `claude plugin marketplace add`.
 - Root `plugin.json` (Agent Plugins 1.0) so Kiro can import this repository as a power from GitHub.
+- Kiro submission details: author email and URL on `plugin.json`, plus a privacy policy and support contact in the README.
 - Cross-platform installation scripts for Codex and Claude (`scripts/install.sh`, `scripts/install.ps1`, and `scripts/install.cmd`).
 - `docs/skill-authoring-guide.md` — worked example for adding a new skill (`error-handling`).
 - `skills/CHANGELOG.md` — per-skill version history.

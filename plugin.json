@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "description": "Vendor-neutral React Native skills for developers and AI agents. Spec/Skill-Driven Development from spec authoring through code review.",
   "author": {
-    "name": "Neha"
+    "name": "Neha",
+    "email": "nsharma215@gmail.com",
+    "url": "https://nehasharma.dev"
   },
   "keywords": [
     "react-native",
