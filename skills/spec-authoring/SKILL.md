@@ -1,7 +1,7 @@
 ---
 name: spec-authoring
 description: Write a spec before building — capturing requirements, design, and tasks in order, with traceability between them. Use when starting any non-trivial feature so work is planned before code is written (Spec/Skill-Driven Development).
-version: 1.3.0
+version: 1.3.1
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [spec, planning, ssd, requirements, design]
@@ -94,7 +94,7 @@ Acceptance Criteria:
 
 ### Design
 
-- **Storage:** favourites stored in a fast key-value store, keyed by item id; read on app start into the query cache.
+- **Storage:** favourites stored in a fast key-value store, keyed by item id. The screen reads them from the app's existing cache.
 - **State:** server-synced favourites live in the app's existing cache, with an optimistic toggle that rolls back when the write fails (satisfies R1.1, R1.3). The failure UI comes from `error-handling`.
 - **Screens:** `FavouritesScreen` (list + empty state) and a reusable `FavouriteButton` (accessible control). `FavouriteButton` carries an `accessibilityLabel` and `accessibilityState` (R-a11y).
 - **Offline:** list reads come from cache first; an offline indicator is shown when disconnected (satisfies R2.1).
@@ -102,7 +102,7 @@ Acceptance Criteria:
 
 ### Tasks
 
-1. Add the key-value store wrapper and a `useFavourites` query hook. (design: storage, state)
+1. Add a favourites reader on the app's existing cache. (design: storage, state)
 2. Build `FavouriteButton` with optimistic toggle, rollback, and accessibility props. (design: state, screens)
 3. Build `FavouritesScreen` with list, empty state, and offline indicator. (design: screens, offline)
 4. Add tests: hook unit tests, button behaviour (toggle + rollback), empty/offline states. (review: testing)

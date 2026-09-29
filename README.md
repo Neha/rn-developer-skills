@@ -108,7 +108,7 @@ Listing in Anthropic's public plugin directory is a separate submission from the
 
 By default, existing installed skill folders are left untouched. Add `--force` on macOS/Linux or `-Force` on Windows to replace them. A copy installed earlier stays at that old version until you pass `--force` or reinstall the plugin.
 
-A plugin install and a copied folder are separate. The plugin does not update `~/.agents/skills`, `~/.claude/skills`, or `~/.cursor/skills`. If both are present, the agent can follow the older file. Keep one: reinstall the plugin and delete the copied folder, or update the folder with `--force` and do not also load the plugin.
+A plugin install and a copied folder are separate copies. Cursor loads every copy it finds, including a plugin, `~/.cursor/skills`, and skills it picks up from Claude or Codex folders. It does not pick the newer one. Claude Code namespaces a plugin skill as `plugin-name:skill-name`, so it loads beside a same-named skill in `~/.claude/skills` instead of replacing it. When names collide outside a plugin, Claude Code uses the enterprise skill over the personal one, and the personal one over the project one. Keep a single copy: use the plugin and delete the copied folder, or update the folder with `--force` and do not also enable the plugin. In Cursor, **Settings → Rules, Skills and Subagents → Include Third-Party Plugins, Skills, and Other Configs** stops it from also reading other tools' skill folders.
 
 ### Cursor (recommended)
 

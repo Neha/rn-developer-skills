@@ -8,6 +8,9 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 
 ## spec-authoring
 
+### 1.3.1
+- The favourites example reads from the app cache.
+
 ### 1.3.0
 - Name the few skills a feature touches, and list them on the favourites example.
 
@@ -63,6 +66,9 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 - Initial skill: labels, roles, touch targets, focus, colour, dynamic type.
 
 ## state-and-data
+
+### 1.2.1
+- The example reads from the app cache. It no longer shows a specific query library.
 
 ### 1.2.0
 - Keep server data in the cache the app already has. Own POST retries and payment confirmation.
