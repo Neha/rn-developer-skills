@@ -33,22 +33,22 @@ tags: [react-native, native, permissions, turbo-modules]
 **Incorrect:**
 ```tsx
 useEffect(() => {
-  request(PERMISSIONS.IOS.CAMERA);
+  requestCameraPermission();
 }, []);
 ```
 
 **Correct:**
 ```tsx
 async function onTakePhoto() {
-  const status = await check(PERMISSIONS.IOS.CAMERA);
-  if (status === RESULTS.DENIED) {
-    const next = await request(PERMISSIONS.IOS.CAMERA);
-    if (next !== RESULTS.GRANTED) {
+  const status = await getCameraPermission();
+  if (status === 'denied') {
+    const next = await requestCameraPermission();
+    if (next !== 'granted') {
       setNeedsSettings(true);
       return;
     }
   }
-  if (status === RESULTS.BLOCKED) {
+  if (status === 'blocked') {
     setNeedsSettings(true);
     return;
   }
