@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+tone_instructions: Be concise and actionable. Lead with the specific fix. Skip praise that does not change the diff.
+reviews:
+  profile: chill
+  path_instructions:
+    - path: skills/**/SKILL.md
+      instructions: |
+        Review skill markdown for this repository.
+        Frontmatter name must match the parent directory.
+        description must say what the skill covers and when to use it, in 500 characters or fewer.
+        Required sections, in order: Applicability, When to Use, Guidance.
+        Checklist items must be verifiable. Examples must be labelled Correct or Incorrect.
+        Guidance stays vendor-neutral and must not include secrets.
+    - path: scripts/**
+      instructions: |
+        Check script correctness and edge cases. Do not suggest adding secrets or weakening validation.
+    - path: .github/**
+      instructions: |
+        Check workflow and template consistency. Flag overly broad permissions and unpinned third-party actions.
+    - path: README.md
+      instructions: |
+        Check that the skill index matches the skills directory and that install instructions stay accurate.
+    - path: CHANGELOG.md
+      instructions: |
+        Check that user-facing changes are listed under Unreleased and match the diff.

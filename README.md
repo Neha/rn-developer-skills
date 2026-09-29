@@ -161,7 +161,7 @@ assets/            logo and announcement image
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose a new skill or edit an existing one, including the required `SKILL.md` structure and frontmatter. New skills should pass `node scripts/validate-skills.mjs` and be added to the Skill Index above.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose a new skill or edit an existing one, including the required `SKILL.md` structure and frontmatter. New skills should pass `node scripts/validate-skills.mjs` and be added to the Skill Index above. Pull requests get an automated first pass from CodeRabbit once the GitHub App is installed; see CONTRIBUTING.md.
 
 ## License
 

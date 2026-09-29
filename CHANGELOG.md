@@ -11,6 +11,7 @@ Per-skill history lives in [`skills/CHANGELOG.md`](skills/CHANGELOG.md).
 - `forms-and-validation` skill for form state, validation timing, keyboard handling, error focus, and submit safety.
 - `observability` skill for crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging.
 - `i18n-and-localization` skill for extracted strings, plurals, locale-aware formatting, RTL layout, and fallback locales.
+- `.coderabbit.yaml` so pull requests get an automated review aligned with the skill index, scripts, and workflows. Reviews stay advisory until branch protection requires the check.
 - Cross-platform installation scripts for Codex and Claude (`scripts/install.sh`, `scripts/install.ps1`, and `scripts/install.cmd`).
 - `docs/skill-authoring-guide.md` — worked example for adding a new skill (`error-handling`).
 - `skills/CHANGELOG.md` — per-skill version history.

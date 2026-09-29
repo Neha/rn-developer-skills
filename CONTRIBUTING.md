@@ -78,3 +78,10 @@ Every skill follows this section order:
 
 - Keep content vendor-neutral. Recommend capabilities ("a virtualised list") and cite tools as examples, not mandates.
 - Never include secrets, credentials, internal endpoints, or proprietary schemas.
+
+## Pull request review
+
+CodeRabbit posts an automated first pass on pull requests after the [CodeRabbit GitHub App](https://github.com/apps/coderabbitai) is installed on this repository. Configuration lives in [`.coderabbit.yaml`](.coderabbit.yaml). Reviews are advisory: address or reply to each finding, and do not treat the check as required to merge until the team turns that on in branch protection.
+
+That pass complements the local `code-review` skill. Use the skill (and `node scripts/validate-skills.mjs`) while writing the change. CodeRabbit applies the same concerns — skill frontmatter, scripts, workflows, and the skill index — to the pull request diff.
+
