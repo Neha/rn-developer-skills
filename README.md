@@ -125,7 +125,7 @@ Shortcut: `Cmd+Shift+P` → **Cursor: Open Plugin Marketplace**
    ```
 
 2. Reload Cursor: `Cmd+Shift+P` → **Developer: Reload Window**
-3. Open **Customize → Skills** and confirm all 10 skills appear.
+3. Open **Customize → Skills** and confirm all 14 skills appear.
 4. Invoke a skill in chat, e.g. `/spec-authoring` or `/code-review`.
 
 **Team Marketplace** *(Cursor Teams/Enterprise)*
@@ -140,7 +140,7 @@ This repository is an [Agent Plugin](https://kiro.dev/docs/powers/create/) Kiro 
 
 In Kiro, open the Powers panel, choose **Add Custom Power**, then **Import power from GitHub**, and use `https://github.com/Neha/rn-developer-skills`. Keywords such as `react-native` and `code-review` activate it.
 
-To request a listing in Kiro’s powers registry, submit this repository at [kiro.dev/powers/submit](https://kiro.dev/powers/submit).
+This repository is submitted to the Kiro powers registry (confirmation `1819c6dd-f8ef-4d05-9a22-5c2420612364`). Kiro emails the author if it is accepted; the listing would then appear at [kiro.dev/powers](https://kiro.dev/powers/). GitHub import above does not wait on that review.
 
 ### Manual / other tools
 

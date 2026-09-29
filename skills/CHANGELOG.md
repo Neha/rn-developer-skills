@@ -8,6 +8,9 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 
 ## spec-authoring
 
+### 1.1.0
+- Added a correct/incorrect example so requirements stay ahead of tasks.
+
 ### 1.0.1
 - Added `platforms` and `react-native-version` frontmatter; added Applicability section.
 
@@ -64,6 +67,9 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 
 ## critical-rules
 
+### 1.1.0
+- Added a correct/incorrect example for rendering a count in text.
+
 ### 1.0.1
 - Added `platforms` and `react-native-version` frontmatter; added Applicability section.
 
@@ -71,6 +77,9 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 - Initial skill: non-negotiable crash, data-loss, security, and compliance rules.
 
 ## conventions
+
+### 1.1.0
+- Added a correct/incorrect example for avoiding `any` on component props.
 
 ### 1.0.1
 - Added `platforms` and `react-native-version` frontmatter; added Applicability section.
@@ -99,6 +108,9 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 - Initial skill: extracted strings, plurals, locale-aware formatting, RTL layout, and fallback locales.
 
 ## code-review
+
+### 2.5.0
+- Route baseline safety and conventions on every review, and show a correct/incorrect review shape.
 
 ### 2.4.0
 - Route localization concerns to the new focused skill.

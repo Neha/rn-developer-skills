@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: Audit entry point for reviewing React Native code. Routes each concern to a focused skill and defines the review output format. Use when reviewing a PR, auditing a screen, or running a pre-merge quality gate.
-version: 2.4.0
+version: 2.5.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, code-review, audit]
@@ -45,8 +45,14 @@ Review each concern using its focused skill. Each link resolves to that skill's 
 | Forms | [forms-and-validation](../forms-and-validation/SKILL.md) | Form state, validation timing, keyboard handling, error focus, submit safety |
 | Observability | [observability](../observability/SKILL.md) | Crash reporting, breadcrumbs, performance traces, analytics, PII-safe logging |
 | Localization | [i18n-and-localization](../i18n-and-localization/SKILL.md) | Extracted strings, plurals, locale formatting, RTL layout, fallback locales |
+| Baseline safety | [critical-rules](../critical-rules/SKILL.md) | Crashes, data loss, security, compliance, and network rules that apply to every change |
+| Conventions | [conventions](../conventions/SKILL.md) | Structure, TypeScript, naming, file size, and hygiene |
 
-For each concern: open the focused skill, apply its checklist to the code under review, and collect anything that fails into the output format below. If a concern does not apply to the change, note it as not applicable.
+Apply the baseline rows on every change. For each other concern: open the focused skill, apply its checklist to the code under review, and collect anything that fails into the output format below. If a concern does not apply to the change, note it as not applicable.
+
+**Incorrect:** a review that only walks the happy path and skips `critical-rules`.
+
+**Correct:** a review that marks baseline safety and conventions as checked, and marks unrelated concerns (for example forms, when the diff has no form) as not applicable.
 
 ## Output Format
 

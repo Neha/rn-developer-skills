@@ -1,7 +1,7 @@
 ---
 name: spec-authoring
 description: Write a spec before building — capturing requirements, design, and tasks in order, with traceability between them. Use when starting any non-trivial feature so work is planned before code is written (Spec/Skill-Driven Development).
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [spec, planning, ssd, requirements, design]
@@ -38,6 +38,10 @@ Capture *what* must be true, not *how* to build it.
   - `WHERE {condition}, THE {system} SHALL {behaviour}` — feature-conditional
   - `IF {unwanted condition}, THEN THE {system} SHALL {behaviour}` — error handling
 - Record requirements **before** writing any design or implementation detail.
+
+**Incorrect:** a task list with no user story or acceptance criteria.
+
+**Correct:** one user story, EARS acceptance criteria, then the design and tasks that trace back to that story.
 
 ### 2. Design (derived from requirements)
 

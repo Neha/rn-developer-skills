@@ -22,6 +22,7 @@ Per-skill history lives in [`skills/CHANGELOG.md`](skills/CHANGELOG.md).
 - `platforms` and `react-native-version` frontmatter fields on all skills; `## Applicability` section in each skill.
 
 ### Changed
+- Install guide counts 14 skills. `code-review` routes `critical-rules` and `conventions` on every change. Spec, critical-rules, conventions, and code-review include a correct/incorrect example. Plugin manifests are `1.1.0`. Kiro section records the registry submission.
 - Plugin logo in `.cursor-plugin/plugin.json` now points to `assets/logo.svg`.
 - `scripts/validate-skills.mjs` validates skill metadata, README index, and plugin manifest.
 

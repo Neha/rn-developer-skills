@@ -1,7 +1,7 @@
 ---
 name: critical-rules
 description: Non-negotiable React Native rules that prevent crashes, data loss, security breaches, and compliance violations. Use on every change as a baseline safety check, regardless of the task.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, safety, crashes, security, compliance]
@@ -30,6 +30,16 @@ These rules are intended to apply broadly rather than to one activity. The detai
 - [ ] Fallbacks provided for API data (`data?.items ?? []`)
 - [ ] Never render undefined/null/NaN/objects directly in JSX text (crashes Android)
 - [ ] `{count && <Text>}` avoided — renders "0" when count is 0; use `count > 0 &&`
+
+**Incorrect:**
+```tsx
+{count && <Text>{count} items</Text>}
+```
+
+**Correct:**
+```tsx
+{count > 0 && <Text>{count} items</Text>}
+```
 - [ ] Array indices never accessed without a length check
 - [ ] Empty, loading, and error states handled for every data-driven screen
 - [ ] State never updated after unmount (cancel async work, clean up in `useEffect`)

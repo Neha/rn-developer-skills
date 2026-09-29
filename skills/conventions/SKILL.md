@@ -1,7 +1,7 @@
 ---
 name: conventions
 description: Baseline React Native project conventions for structure, TypeScript, naming, file size, and hygiene. Use when setting up a project, writing new code, or reviewing for consistency.
-version: 1.0.1
+version: 1.1.0
 platforms: [ios, android]
 react-native-version: 0.76+
 tags: [react-native, conventions, structure, style]
@@ -34,6 +34,24 @@ These conventions are intended to apply across all work rather than to one activ
 ### TypeScript
 
 - [ ] No `any` — use a precise type or `unknown` and narrow
+
+**Incorrect:**
+```tsx
+function Profile({ user }: { user: any }) {
+  return <Text>{user.name}</Text>;
+}
+```
+
+**Correct:**
+```tsx
+interface ProfileProps {
+  user: { name: string };
+}
+
+function Profile({ user }: ProfileProps) {
+  return <Text>{user.name}</Text>;
+}
+```
 - [ ] No `@ts-ignore` without an inline explanation of why
 - [ ] Component props use a named interface, not an inline object type
 
