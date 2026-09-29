@@ -88,7 +88,15 @@ Format: **MAJOR.MINOR.PATCH** — brief description of what changed and why.
 ### 1.0.0
 - Initial skill: form state, validation timing, keyboard handling, error focus, and submit safety.
 
+## observability
+
+### 1.0.0
+- Initial skill: crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging.
+
 ## code-review
+
+### 2.3.0
+- Route observability concerns to the new focused skill.
 
 ### 2.2.0
 - Route form concerns to the new focused skill.

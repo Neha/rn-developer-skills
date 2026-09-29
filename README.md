@@ -34,6 +34,7 @@ The same skills inform all three stages: what guides the build also defines the 
 | [testing](skills/testing/SKILL.md) | Unit, component, and E2E coverage; edge cases; and test quality. |
 | [native-integration](skills/native-integration/SKILL.md) | Permissions, native modules, platform APIs, background tasks, and listener cleanup. |
 | [forms-and-validation](skills/forms-and-validation/SKILL.md) | Form state, validation timing, keyboard handling, error focus, and submit safety. |
+| [observability](skills/observability/SKILL.md) | Crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging. |
 
 ### Baseline (apply to every change)
 | Skill | Description |
