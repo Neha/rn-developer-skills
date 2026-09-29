@@ -35,6 +35,7 @@ The same skills inform all three stages: what guides the build also defines the 
 | [native-integration](skills/native-integration/SKILL.md) | Permissions, native modules, platform APIs, background tasks, and listener cleanup. |
 | [forms-and-validation](skills/forms-and-validation/SKILL.md) | Form state, validation timing, keyboard handling, error focus, and submit safety. |
 | [observability](skills/observability/SKILL.md) | Crash reporting, breadcrumbs, performance traces, analytics, and PII-safe logging. |
+| [i18n-and-localization](skills/i18n-and-localization/SKILL.md) | Extracted strings, plurals, locale-aware formatting, RTL layout, and fallback locales. |
 
 ### Baseline (apply to every change)
 | Skill | Description |
